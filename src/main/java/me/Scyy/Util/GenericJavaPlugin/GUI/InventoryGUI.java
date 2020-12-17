@@ -60,15 +60,35 @@ public abstract class InventoryGUI implements InventoryHolder {
      * @param plugin the main Plugin instance
      * @param player the player that opened this GUI
      * @param name name of this GUI
-     * @param size
+     * @param size size of the GUI, one of: 9, 18, 27, 36, 45, 54
      */
     public InventoryGUI(InventoryGUI lastGUI, Plugin plugin, Player player, String name, int size) {
         this.lastGUI = lastGUI;
         this.plugin = plugin;
         this.player = player;
         this.name = name;
+        if (!(size > 0 && size / 9 < 7)) throw new IllegalArgumentException("Invalid inventory size of " + size);
         this.size = size;
         this.inventoryItems = createBlankPage(size);
+        this.inventory = Bukkit.createInventory(this, size, ChatColor.translateAlternateColorCodes('&', name));
+    }
+
+    /**
+     * Create a GUI with the inventory items predetermined
+     * @param lastGUI the GUI that was open before this one. {@code null} if the GUI was just opened
+     * @param plugin the main Plugin instance
+     * @param player the player that opened this GUI
+     * @param name name of this GUI
+     * @param inventoryItems item array of the items, inventoryItems.length must be one of 9, 18, 27, 36, 45, 54
+     */
+    public InventoryGUI(InventoryGUI lastGUI, Plugin plugin, Player player, String name, ItemStack[] inventoryItems) {
+        this.lastGUI = lastGUI;
+        this.plugin = plugin;
+        this.player = player;
+        this.name = name;
+        if (!(inventoryItems.length > 0 && inventoryItems.length / 9 < 7)) throw new IllegalArgumentException("Invalid inventory size of " + inventoryItems.length);
+        this.size = inventoryItems.length;
+        this.inventoryItems = inventoryItems;
         this.inventory = Bukkit.createInventory(this, size, ChatColor.translateAlternateColorCodes('&', name));
     }
 
@@ -160,7 +180,7 @@ public abstract class InventoryGUI implements InventoryHolder {
     }
 
     /**
-     * Creates a chest of size {@code size} filled with nameless Gray Stained glass panes
+     * Creates an array of ItemStacks of size {@code size} filled with nameless Gray Stained glass panes
      * @param size size of the GUI
      * @return the ItemStack array with the glass panes
      */
@@ -169,9 +189,7 @@ public abstract class InventoryGUI implements InventoryHolder {
         for (int i = 0; i < size; i++) {
             defaultInv[i] = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).name(" ").build();
         }
-
         return defaultInv;
-
     }
 
     /**
