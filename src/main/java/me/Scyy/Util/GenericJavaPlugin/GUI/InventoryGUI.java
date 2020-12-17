@@ -54,13 +54,21 @@ public abstract class InventoryGUI implements InventoryHolder {
      */
     protected boolean close = false;
 
+    /**
+     * Create a blank GUI using {@link InventoryGUI#createBlankPage(int)} to fill the slots
+     * @param lastGUI the GUI that was open before this one. {@code null} if the GUI was just opened
+     * @param plugin the main Plugin instance
+     * @param player the player that opened this GUI
+     * @param name name of this GUI
+     * @param size
+     */
     public InventoryGUI(InventoryGUI lastGUI, Plugin plugin, Player player, String name, int size) {
         this.lastGUI = lastGUI;
         this.plugin = plugin;
         this.player = player;
         this.name = name;
         this.size = size;
-        this.inventoryItems = initialiseDefaultPage(size);
+        this.inventoryItems = createBlankPage(size);
         this.inventory = Bukkit.createInventory(this, size, ChatColor.translateAlternateColorCodes('&', name));
     }
 
@@ -135,13 +143,18 @@ public abstract class InventoryGUI implements InventoryHolder {
     }
 
     /**
-     * If the inventory should close on the next tick. Highly recommended to open a 
-     * @return
+     * If the inventory should close on the next tick.
+     * Highly recommended to open a {@link UninteractableGUI} afterwards to prevent any additional clicks being registered
+     * @return if the inventory will close on the next tick
      */
     public boolean isClose() {
         return close;
     }
 
+    /**
+     * Sets if the inventory will close on the next tick
+     * @param close if the inventory should close on the next tick
+     */
     public void setClose(boolean close) {
         this.close = close;
     }
@@ -149,9 +162,9 @@ public abstract class InventoryGUI implements InventoryHolder {
     /**
      * Creates a chest of size {@code size} filled with nameless Gray Stained glass panes
      * @param size size of the GUI
-     * @return the itemstack array with the glass panes
+     * @return the ItemStack array with the glass panes
      */
-    private ItemStack[] initialiseDefaultPage(int size) {
+    public ItemStack[] createBlankPage(int size) {
         ItemStack[] defaultInv = new ItemStack[size];
         for (int i = 0; i < size; i++) {
             defaultInv[i] = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).name(" ").build();
@@ -161,10 +174,18 @@ public abstract class InventoryGUI implements InventoryHolder {
 
     }
 
+    /**
+     * Called when the user clicks on the view while this GUI is open. Clicks in the Player Inventory fire this event,
+     * but are automatically cancelled if {@link InventoryGUI#allowPlayerInventoryEdits()} is false
+     * @param event The click event in the GUI
+     * @return the new GUI page created as a result of the click
+     */
     public abstract InventoryGUI handleClick(InventoryClickEvent event);
 
-
-
+    /**
+     * If the player can edit their inventory contents while this GUI is open
+     * @return if the player can edit their inventory contents while this GUI is open
+     */
     public abstract boolean allowPlayerInventoryEdits();
 
 }
