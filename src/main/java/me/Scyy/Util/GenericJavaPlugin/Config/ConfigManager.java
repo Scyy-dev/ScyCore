@@ -2,7 +2,7 @@ package me.Scyy.Util.GenericJavaPlugin.Config;
 
 import me.Scyy.Util.GenericJavaPlugin.Plugin;
 
-public class ConfigFileHandler {
+public class ConfigManager {
 
     private final PlayerMessenger playerMessenger;
     private final Settings settings;
@@ -11,7 +11,7 @@ public class ConfigFileHandler {
      * Load all configs in
      * @param plugin the plugin to get Plugin data folder references
      */
-    public ConfigFileHandler(Plugin plugin) {
+    public ConfigManager(Plugin plugin) {
         this.playerMessenger = new PlayerMessenger(plugin);
         this.settings = new Settings(plugin);
     }
