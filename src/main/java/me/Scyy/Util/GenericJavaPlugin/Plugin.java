@@ -59,4 +59,10 @@ public class Plugin extends JavaPlugin {
                 ChatColor.translateAlternateColorCodes('&', "PLUGIN_NAME v" + getDescription().getVersion()), "Built by _Scyy");
     }
 
+    /**
+     * @return the Config Manager
+     */
+    public ConfigManager getConfigManager() {
+        return configManager;
+    }
 }
