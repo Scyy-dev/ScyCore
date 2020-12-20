@@ -1,5 +1,6 @@
 package me.Scyy.Util.GenericJavaPlugin;
 
+import me.Scyy.Util.GenericJavaPlugin.Command.AdminCommand;
 import me.Scyy.Util.GenericJavaPlugin.Config.ConfigManager;
 import me.Scyy.Util.GenericJavaPlugin.Config.Settings;
 import org.bukkit.ChatColor;
@@ -19,6 +20,10 @@ public class Plugin extends JavaPlugin {
         // Register the Config Manager
         this.configManager = new ConfigManager(this);
 
+        // Register the Admin Command
+        AdminCommand adminCommand = new AdminCommand(this);
+        this.getCommand("admin").setExecutor(adminCommand);
+        this.getCommand("admin").setTabCompleter(adminCommand);
 
     }
 
