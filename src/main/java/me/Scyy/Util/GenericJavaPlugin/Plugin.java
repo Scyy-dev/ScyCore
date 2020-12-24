@@ -1,7 +1,7 @@
 package me.Scyy.Util.GenericJavaPlugin;
 
 import me.Scyy.Util.GenericJavaPlugin.Command.AdminCommand;
-import me.Scyy.Util.GenericJavaPlugin.Config.ConfigManager;
+import me.Scyy.Util.GenericJavaPlugin.Config.Managers.SimpleConfigManager;
 import me.Scyy.Util.GenericJavaPlugin.Config.Settings;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -12,13 +12,13 @@ import java.util.List;
 
 public class Plugin extends JavaPlugin {
 
-    private ConfigManager configManager;
+    private SimpleConfigManager configManager;
 
     @Override
     public void onEnable() {
 
         // Register the Config Manager
-        this.configManager = new ConfigManager(this);
+        this.configManager = new SimpleConfigManager(this);
 
         // Register the Admin Command
         AdminCommand adminCommand = new AdminCommand(this);
@@ -33,7 +33,7 @@ public class Plugin extends JavaPlugin {
     }
 
     /**
-     * Reload all configs registered by the {@link ConfigManager} for this plugin
+     * Reload all configs registered by the {@link SimpleConfigManager} for this plugin
      * @param sender Output for messages
      */
     public void reload(CommandSender sender) {
@@ -67,7 +67,7 @@ public class Plugin extends JavaPlugin {
     /**
      * @return the Config Manager
      */
-    public ConfigManager getConfigManager() {
+    public SimpleConfigManager getConfigManager() {
         return configManager;
     }
 }
