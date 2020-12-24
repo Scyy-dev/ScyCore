@@ -27,7 +27,7 @@ public class PlayerMessenger extends ConfigFile {
      * @param plugin reference to the plugin
      */
     public PlayerMessenger(Plugin plugin) {
-        super(plugin, "messages.yml");
+        super(plugin, plugin.getConfigManager(),  "messages.yml");
 
         // Get the prefix
         String rawPrefix = config.getString("prefix");

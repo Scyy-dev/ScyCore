@@ -11,6 +11,6 @@ public class Settings extends ConfigFile {
      * @param plugin the Plugin
      */
     public Settings(Plugin plugin) {
-        super(plugin, "config.yml");
+        super(plugin, plugin.getConfigManager(), "config.yml");
     }
 }
