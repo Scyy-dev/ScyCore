@@ -1,6 +1,7 @@
 package me.Scyy.Util.GenericJavaPlugin.Config;
 
 import com.google.common.base.Charsets;
+import me.Scyy.Util.GenericJavaPlugin.Config.Managers.ConfigManager;
 import me.Scyy.Util.GenericJavaPlugin.Plugin;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -33,15 +34,23 @@ public abstract class ConfigFile {
     protected final String configFilePath;
 
     /**
+     * The manager for this config file
+     */
+    protected final ConfigManager manager;
+
+    /**
      * Attaches the configuration getter/setter to the File specified at {@code configFilePath} or if the file is not found
      * Loads one from the plugin files
      * @param plugin the Plugin class
      * @param configFilePath path to the file from this plugins Data Folder
      */
-    public ConfigFile(Plugin plugin, String configFilePath) {
+    public ConfigFile(Plugin plugin, ConfigManager manager, String configFilePath) {
 
         // Save the plugin reference
         this.plugin = plugin;
+
+        // Save the manager reference
+        this.manager = manager;
 
         // Save the message file path
         this.configFilePath = configFilePath;
