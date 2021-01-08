@@ -3,7 +3,6 @@ package me.Scyy.Util.GenericJavaPlugin;
 import me.Scyy.Util.GenericJavaPlugin.Command.AdminCommand;
 import me.Scyy.Util.GenericJavaPlugin.Config.Managers.SimpleConfigManager;
 import me.Scyy.Util.GenericJavaPlugin.Config.Settings;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -24,6 +23,8 @@ public class Plugin extends JavaPlugin {
         AdminCommand adminCommand = new AdminCommand(this);
         this.getCommand("admin").setExecutor(adminCommand);
         this.getCommand("admin").setTabCompleter(adminCommand);
+
+
 
     }
 
@@ -60,8 +61,15 @@ public class Plugin extends JavaPlugin {
      * @return the splash text
      */
     public List<String> getSplashText() {
+        StringBuilder authors = new StringBuilder();
+        for (String author : this.getDescription().getAuthors()) {
+            authors.append(author).append(", ");
+        }
+        authors.delete(authors.length() - 1, authors.length());
         return Arrays.asList(
-                ChatColor.translateAlternateColorCodes('&', "PLUGIN_NAME v" + getDescription().getVersion()), "Built by _Scyy");
+                "PLUGIN_NAME v" + this.getDescription().getVersion(),
+                "Built by" + authors.toString()
+        );
     }
 
     /**
