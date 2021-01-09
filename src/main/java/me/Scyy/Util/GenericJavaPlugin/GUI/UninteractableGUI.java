@@ -1,38 +1,36 @@
 package me.Scyy.Util.GenericJavaPlugin.GUI;
 
-import me.Scyy.Util.GenericJavaPlugin.Plugin;
-import org.bukkit.entity.Player;
+import me.Scyy.Util.GenericJavaPlugin.GUI.Type.GUI;
+import me.Scyy.Util.GenericJavaPlugin.GUI.Type.InventoryGUI;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.jetbrains.annotations.NotNull;
 
+/**
+ * When closing a GUI to perform an action (e.g. teleport a player, chat prompt etc) there is a small window that can
+ * be created for players to interact with the GUI before it closes due to scheduling or lag. <br>
+ * To prevent any attempts to open more than one GUI at once, opening this GUI instead ensures the behaviour does not
+ * change due to extra ticks between the GUI closing or lag
+ */
 public class UninteractableGUI extends InventoryGUI {
 
     /**
-     * Copies everything from the last GUI
-     * @param lastGUI the GUI pen before this one
-     * @param plugin the Plugin
-     * @param player the player viewing this GUI
+     * @param lastGUI The GUI that was open before this one - appearance is copied from the previous GUI
      */
-    public UninteractableGUI(InventoryGUI lastGUI, Plugin plugin, Player player) {
-        super(lastGUI, plugin, player, lastGUI.name, lastGUI.size);
-
+    public UninteractableGUI(@NotNull InventoryGUI lastGUI) {
+        super(lastGUI, lastGUI.getPlugin(), lastGUI.getPlayer(), lastGUI.getName(), lastGUI.getSize());
         this.inventoryItems = lastGUI.getInventoryItems();
     }
 
     /**
-     * Denies any sort of interaction with the GUI
-     * @param event The click event in the GUI
-     * @return this same GUI
+     * Creates a deadlock scenario - players cannot do anything from this GUI except for closing it
+     * @param event event from interacting with this GUI
+     * @return this GUI
      */
     @Override
-    public InventoryGUI handleClick(InventoryClickEvent event) {
-        event.setCancelled(true);
+    public @NotNull GUI<?> handleInteraction(InventoryClickEvent event) {
         return this;
     }
-
-    /**
-     * Denies the ability to interact with the players own inventory
-     * @return false
-     */
+    
     @Override
     public boolean allowPlayerInventoryEdits() {
         return false;
