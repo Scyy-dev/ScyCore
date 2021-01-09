@@ -20,11 +20,11 @@ public class PlayerMessenger extends ConfigFile {
     /**
      * Prefix for messages, can be ignored if set to "" in messages.yml
      */
-    private final String prefix;
+    private String prefix;
 
     /**
      * Constructs a player messenger with the plugin and declares the prefix for messages
-     * @param plugin reference to the plugin
+     * @param plugin plugin instance
      */
     public PlayerMessenger(Plugin plugin) {
         super(plugin, plugin.getConfigManager(),  "messages.yml");
@@ -34,6 +34,19 @@ public class PlayerMessenger extends ConfigFile {
         if (rawPrefix != null) this.prefix = ChatColor.translateAlternateColorCodes('&', rawPrefix);
         else this.prefix = "[COULD_NOT_LOAD_PREFIX]";
 
+    }
+
+    @Override
+    public void reloadConfig() {
+        super.reloadConfig();
+        // Get the prefix
+        String rawPrefix = config.getString("prefix");
+        if (rawPrefix != null) this.prefix = ChatColor.translateAlternateColorCodes('&', rawPrefix);
+        else this.prefix = "[COULD_NOT_LOAD_PREFIX]";
+    }
+
+    public String getPrefix() {
+        return prefix;
     }
 
     /**
@@ -84,7 +97,7 @@ public class PlayerMessenger extends ConfigFile {
         String messagePrefix = "";
 
         if (!rawMessage.startsWith("[NO_PREFIX]")) {
-            messagePrefix = prefix + " ";
+            messagePrefix = prefix;
         } else {
             rawMessage = rawMessage.substring(11);
         }
