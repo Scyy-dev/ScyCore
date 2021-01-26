@@ -1,7 +1,7 @@
 package me.Scyy.Util.GenericJavaPlugin;
 
 import me.Scyy.Util.GenericJavaPlugin.Command.AdminCommand;
-import me.Scyy.Util.GenericJavaPlugin.Config.Managers.SimpleConfigManager;
+import me.Scyy.Util.GenericJavaPlugin.Config.SimpleConfigManager;
 import me.Scyy.Util.GenericJavaPlugin.Config.Settings;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
