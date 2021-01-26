@@ -1,10 +1,10 @@
-package me.Scyy.Util.GenericJavaPlugin.Config.Managers;
+package me.Scyy.Util.GenericJavaPlugin.Config;
 
-import me.Scyy.Util.GenericJavaPlugin.Config.PlayerMessenger;
-import me.Scyy.Util.GenericJavaPlugin.Config.Settings;
 import me.Scyy.Util.GenericJavaPlugin.Plugin;
 
 public class SimpleConfigManager implements ConfigManager {
+
+    private final Plugin plugin;
 
     private final PlayerMessenger playerMessenger;
     private final Settings settings;
@@ -14,15 +14,16 @@ public class SimpleConfigManager implements ConfigManager {
      * @param plugin the plugin to get Plugin data folder references
      */
     public SimpleConfigManager(Plugin plugin) {
-        this.playerMessenger = new PlayerMessenger(plugin);
-        this.settings = new Settings(plugin);
+        this.plugin = plugin;
+        this.playerMessenger = new PlayerMessenger(this);
+        this.settings = new Settings(this);
     }
 
     /**
      * Reloads all ConfigFiles registered to this handler
      */
     @Override
-    public void reloadConfigs() {
+    public void reloadConfigs() throws Exception {
         playerMessenger.reloadConfig();
         settings.reloadConfig();
     }
@@ -43,4 +44,8 @@ public class SimpleConfigManager implements ConfigManager {
         return settings;
     }
 
+    @Override
+    public Plugin getPlugin() {
+        return plugin;
+    }
 }
