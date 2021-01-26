@@ -1,7 +1,6 @@
 package me.Scyy.Util.GenericJavaPlugin.Config;
 
 import com.google.common.base.Charsets;
-import me.Scyy.Util.GenericJavaPlugin.Config.Managers.ConfigManager;
 import me.Scyy.Util.GenericJavaPlugin.Plugin;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -41,16 +40,14 @@ public abstract class ConfigFile {
     /**
      * Attaches the configuration getter/setter to the File specified at {@code configFilePath} or if the file is not found
      * Loads one from the plugin files
-     * @param plugin the Plugin class
      * @param configFilePath path to the file from this plugins Data Folder
      */
-    public ConfigFile(Plugin plugin, ConfigManager manager, String configFilePath) {
-
-        // Save the plugin reference
-        this.plugin = plugin;
+    public ConfigFile(ConfigManager manager, String configFilePath, boolean fromResourceFile) {
 
         // Save the manager reference
         this.manager = manager;
+
+        this.plugin = manager.getPlugin();
 
         // Save the message file path
         this.configFilePath = configFilePath;
@@ -61,7 +58,15 @@ public abstract class ConfigFile {
         // Check if the file exists
         if (!configFile.exists()) {
             configFile.getParentFile().mkdirs();
-            plugin.saveResource(configFilePath, false);
+            if (fromResourceFile) {
+                plugin.saveResource(configFilePath, false);
+            } else {
+                try {
+                    configFile.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         // Create the yml reference
@@ -77,16 +82,11 @@ public abstract class ConfigFile {
     /**
      * Reloads config by reading updating the reference to the file
      */
-    public void reloadConfig() {
-        try {
-            config = YamlConfiguration.loadConfiguration(configFile);
-            InputStream defIMessagesStream = plugin.getResource(configFilePath);
-            if (defIMessagesStream != null) {
-                config.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defIMessagesStream, Charsets.UTF_8)));
-            }
-        } catch (Exception ex) {
-            plugin.getLogger().warning("Could not reload config at " + this.getConfigFilePath());
-            ex.printStackTrace();
+    public void reloadConfig() throws Exception {
+        config = YamlConfiguration.loadConfiguration(configFile);
+        InputStream defIMessagesStream = plugin.getResource(configFilePath);
+        if (defIMessagesStream != null) {
+            config.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defIMessagesStream, Charsets.UTF_8)));
         }
     }
 
