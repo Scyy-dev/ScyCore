@@ -1,4 +1,4 @@
-package me.Scyy.Util.GenericJavaPlugin.Util;
+package me.scyphers.plugins.pluginname.util;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

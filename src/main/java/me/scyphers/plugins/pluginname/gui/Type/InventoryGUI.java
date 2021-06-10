@@ -1,6 +1,6 @@
-package me.Scyy.Util.GenericJavaPlugin.GUI.Type;
+package me.scyphers.plugins.pluginname.gui.type;
 
-import me.Scyy.Util.GenericJavaPlugin.Plugin;
+import me.scyphers.plugins.pluginname.Plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

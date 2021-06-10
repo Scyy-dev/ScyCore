@@ -1,7 +1,7 @@
-package me.Scyy.Util.GenericJavaPlugin.GUI;
+package me.scyphers.plugins.pluginname.gui;
 
-import me.Scyy.Util.GenericJavaPlugin.GUI.Type.GUI;
-import me.Scyy.Util.GenericJavaPlugin.GUI.Type.InventoryGUI;
+import me.scyphers.plugins.pluginname.gui.type.GUI;
+import me.scyphers.plugins.pluginname.gui.type.InventoryGUI;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.NotNull;
 

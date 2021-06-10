@@ -1,8 +1,8 @@
-package me.Scyy.Util.GenericJavaPlugin;
+package me.scyphers.plugins.pluginname;
 
-import me.Scyy.Util.GenericJavaPlugin.Command.AdminCommand;
-import me.Scyy.Util.GenericJavaPlugin.Config.SimpleConfigManager;
-import me.Scyy.Util.GenericJavaPlugin.Config.Settings;
+import me.scyphers.plugins.pluginname.command.AdminCommand;
+import me.scyphers.plugins.pluginname.config.SimpleConfigManager;
+import me.scyphers.plugins.pluginname.config.Settings;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 

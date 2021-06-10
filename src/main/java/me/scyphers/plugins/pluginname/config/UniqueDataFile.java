@@ -1,13 +1,13 @@
-package me.Scyy.Util.GenericJavaPlugin.Config;
+package me.scyphers.plugins.pluginname.config;
 
 import java.io.File;
 import java.util.UUID;
 
-public class PlayerDataFile extends ConfigFile {
+public class UniqueDataFile extends ConfigFile {
 
     private final UUID uuid;
 
-    public PlayerDataFile(ConfigManager manager, UUID uuid) {
+    public UniqueDataFile(ConfigManager manager, UUID uuid) {
         super(manager, "player_data" + File.separator + uuid.toString() + ".yml", false);
         this.uuid = uuid;
     }

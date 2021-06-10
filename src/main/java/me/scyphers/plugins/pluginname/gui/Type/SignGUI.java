@@ -1,6 +1,6 @@
-package me.Scyy.Util.GenericJavaPlugin.GUI.Type;
+package me.scyphers.plugins.pluginname.gui.type;
 
-import me.Scyy.Util.GenericJavaPlugin.Plugin;
+import me.scyphers.plugins.pluginname.Plugin;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,7 +39,7 @@ public abstract class SignGUI implements GUI<SignChangeEvent> {
     @Override
     public @Nullable InventoryView open(Player player) {
         if (sign == null) {
-            System.out.println("Null sign - possibly open lastGUI?");
+            plugin.getLogger().warning("Unable to interact with sign");
         } else {
             sign.setEditable(true);
             player.openSign(sign);

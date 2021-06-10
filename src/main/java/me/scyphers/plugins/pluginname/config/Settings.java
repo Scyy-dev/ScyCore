@@ -1,4 +1,4 @@
-package me.Scyy.Util.GenericJavaPlugin.Config;
+package me.scyphers.plugins.pluginname.config;
 
 public class Settings extends ConfigFile {
 

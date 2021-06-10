@@ -1,12 +1,12 @@
-package me.Scyy.Util.GenericJavaPlugin.Config;
+package me.scyphers.plugins.pluginname.config;
 
-import me.Scyy.Util.GenericJavaPlugin.Plugin;
+import me.scyphers.plugins.pluginname.Plugin;
 
 public class SimpleConfigManager implements ConfigManager {
 
     private final Plugin plugin;
 
-    private final PlayerMessenger playerMessenger;
+    private final Messenger messenger;
     private final Settings settings;
 
     /**
@@ -15,7 +15,7 @@ public class SimpleConfigManager implements ConfigManager {
      */
     public SimpleConfigManager(Plugin plugin) {
         this.plugin = plugin;
-        this.playerMessenger = new PlayerMessenger(this);
+        this.messenger = new Messenger(this);
         this.settings = new Settings(this);
     }
 
@@ -24,7 +24,7 @@ public class SimpleConfigManager implements ConfigManager {
      */
     @Override
     public void reloadConfigs() throws Exception {
-        playerMessenger.reloadConfig();
+        messenger.reloadConfig();
         settings.reloadConfig();
     }
 
@@ -32,8 +32,8 @@ public class SimpleConfigManager implements ConfigManager {
      * Get the Player Messenger ConfigFile
      * @return the Player Messenger
      */
-    public PlayerMessenger getPlayerMessenger() {
-        return playerMessenger;
+    public Messenger getPlayerMessenger() {
+        return messenger;
     }
 
     /**

@@ -1,25 +1,25 @@
-package me.Scyy.Util.GenericJavaPlugin.Config;
+package me.scyphers.plugins.pluginname.config;
 
-import me.Scyy.Util.GenericJavaPlugin.Plugin;
+import me.scyphers.plugins.pluginname.Plugin;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class PlayerDataManager implements ConfigManager {
+public class UniqueDataManager implements ConfigManager {
 
-    private final Map<UUID, PlayerDataFile> playerData;
+    private final Map<UUID, UniqueDataFile> playerData;
 
     private final Plugin plugin;
 
-    public PlayerDataManager(Plugin plugin) {
+    public UniqueDataManager(Plugin plugin) {
         this.plugin = plugin;
         this.playerData = new HashMap<>();
     }
 
     public void loadPlayerData(UUID uuid) {
         if (playerData.containsKey(uuid)) return;
-        playerData.put(uuid, new PlayerDataFile(this, uuid));
+        playerData.put(uuid, new UniqueDataFile(this, uuid));
     }
 
     public void unloadPlayerData(UUID uuid) {
@@ -27,7 +27,7 @@ public class PlayerDataManager implements ConfigManager {
         playerData.remove(uuid);
     }
 
-    public PlayerDataFile getPlayerData(UUID uuid) {
+    public UniqueDataFile getPlayerData(UUID uuid) {
         return playerData.get(uuid);
     }
 

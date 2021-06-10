@@ -1,4 +1,4 @@
-package me.Scyy.Util.GenericJavaPlugin.Config;
+package me.scyphers.plugins.pluginname.config;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -12,18 +12,16 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PlayerMessenger extends ConfigFile {
+public class Messenger extends ConfigFile {
 
     public static final Pattern hex = Pattern.compile("&#[a-zA-Z0-9]{6}");
 
+    // If using this as a template, feel free to customise this exact char - it was chosen at random
     private static final char interactChar = 'φ';
 
-    /**
-     * Prefix for messages, can be ignored if set to "" in messages.yml
-     */
     private String prefix;
 
-    public PlayerMessenger(ConfigManager manager) {
+    public Messenger(ConfigManager manager) {
         super(manager, "messages.yml", true);
 
         // Get the prefix
@@ -42,6 +40,7 @@ public class PlayerMessenger extends ConfigFile {
         else this.prefix = "[COULD_NOT_LOAD_PREFIX]";
     }
 
+    // Managing Spigots BaseComponents
     public static BaseComponent[] toComponent(String message) {
         return toComponent(message, null);
     }
@@ -115,7 +114,6 @@ public class PlayerMessenger extends ConfigFile {
                         i += 1;
                 }
             }
-
         }
 
         component.setText(sb.toString());
@@ -125,8 +123,9 @@ public class PlayerMessenger extends ConfigFile {
 
     }
 
+    // Managing formatting/replacements
     public static String markForInteractEvent(String text, String textToMark) {
-        return text.replace(textToMark, '&' + String.valueOf(interactChar));
+        return text.replaceAll(textToMark, '&' + String.valueOf(interactChar));
     }
 
     public static String format(String message) {
@@ -159,6 +158,13 @@ public class PlayerMessenger extends ConfigFile {
 
     }
 
+    // Sending messages that aren't from messages.yml
+    public void send(CommandSender sender, String message) {
+        BaseComponent[] components = toComponent(message);
+        this.msg(sender, components);
+    }
+
+    // Sending messages from messages.yml
     public void msg(CommandSender sender, BaseComponent[] message) {
         sender.spigot().sendMessage(message);
     }
@@ -167,42 +173,32 @@ public class PlayerMessenger extends ConfigFile {
         player.spigot().sendMessage(type, null, message);
     }
 
-    /**
-     * For sending a message from messages.yml - use [NO_PREFIX]
-     * @param sender The user to send the message to
-     * @param path the path of the message in messages.yml
-     */
     public void msg(CommandSender sender, String path) {
         this.msg(sender, path, (String) null);
     }
 
-    /**
-     * For sending a message with parts in the message that contains placeholders
-     * @param sender The user to send the message to
-     * @param path the path of the message in messages.yml
-     * @param replacements an array of replacements with the placeholder and their replacements in pairs e.g.
-     *                     "%player%", player.getName(), "%entity%", entity.getName() etc...
-     */
     public void msg(CommandSender sender, String path, String... replacements) {
         BaseComponent[] message = this.getMsg(path, replacements);
         if (message.length == 0) return;
         this.msg(sender, message);
     }
 
-    /**
-     * For getting a message from messages.yml
-     * @param path the path of the message in messages.yml
-     */
+    // Sending list messages from messages.yml
+    public void msgList(CommandSender sender, String path) {
+        this.msgList(sender, path, (String) null);
+    }
+
+    public void msgList(CommandSender sender, String path, String... replacements) {
+        for (BaseComponent[] message : this.getListMsg(path, replacements)) {
+            this.msg(sender, message);
+        }
+    }
+
+    // Getting messages from messages.yml
     public BaseComponent[] getMsg(String path) {
         return this.getMsg(path, (String) null);
     }
 
-    /**
-     * For getting a message with parts in the message that contains placeholders
-     * @param path the path of the message in messages.yml
-     * @param replacements an array of replacements with the placeholder and their replacements in pairs e.g.
-     *                     "%player%", player.getName(), "%entity%", entity.getName() etc...
-     */
     public BaseComponent[] getMsg(String path, String... replacements) {
 
         String rawMessage = config.getString(path);
@@ -223,6 +219,7 @@ public class PlayerMessenger extends ConfigFile {
 
     }
 
+    // Get messages without formatting them to BaseComponents from messages.yml
     public String getRawMsg(String path) {
         return this.getRawMsg(path, (String) null);
     }
@@ -249,42 +246,11 @@ public class PlayerMessenger extends ConfigFile {
 
     }
 
-    /**
-     * For sending multiple messages stored as a list in messages.yml. Does not include the prefix
-     * @param sender the user to send the messages to
-     * @param path the path of the message list in messages.yml
-     */
-    public void msgList(CommandSender sender, String path) {
-        this.msgList(sender, path, (String) null);
-    }
-
-    /**
-     * For sending multiple messages stored as a list in messages.yml. Does not include the prefix
-     * @param sender the user to send the messages to
-     * @param path the path of the message list in messages.yml
-     * @param replacements an array of replacements with the placeholder and their replacements in pairs e.g.
-     *                     "%player%", player.getName(), "%entity%", entity.getName() etc...
-     */
-    public void msgList(CommandSender sender, String path, String... replacements) {
-        for (BaseComponent[] message : this.getListMsg(path, replacements)) {
-            this.msg(sender, message);
-        }
-    }
-
-    /**
-     * For getting multiple messages stored as a list in messages.yml. Ignores the prefix
-     * @param path the path of the message list in messages.yml
-     */
+    // Get list messages from messages.yml
     public List<BaseComponent[]> getListMsg(String path) {
         return this.getListMsg(path, (String) null);
     }
 
-    /**
-     * For getting multiple messages stored as a list in messages.yml. Ignores the Prefix
-     * @param path the path of the message list in messages.yml
-     * @param replacements an array of replacements with the placeholder and their replacements in pairs e.g.
-     *                     "%player%", player.getName(), "%entity%", entity.getName() etc...
-     */
     public List<BaseComponent[]> getListMsg(String path, String... replacements) {
 
         List<String> rawList = config.getStringList(path);
@@ -304,6 +270,7 @@ public class PlayerMessenger extends ConfigFile {
 
     }
 
+    // Get list messages without formatting them to BaseComponents from messages.yml
     public List<String> getRawListMsg(String path) {
         return this.getRawListMsg(path, (String) null);
     }
@@ -326,6 +293,7 @@ public class PlayerMessenger extends ConfigFile {
 
     }
 
+    // Generic message sent if a message cannot be found in messages.yml
     public static BaseComponent[] messageNotFound(String messagePath) {
         return new BaseComponent[] {
                 new TextComponent("Could not find message at " + messagePath)

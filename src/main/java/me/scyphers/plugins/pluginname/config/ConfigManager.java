@@ -1,6 +1,6 @@
-package me.Scyy.Util.GenericJavaPlugin.Config;
+package me.scyphers.plugins.pluginname.config;
 
-import me.Scyy.Util.GenericJavaPlugin.Plugin;
+import me.scyphers.plugins.pluginname.Plugin;
 
 /**
  * Manager for a collection of config files. Recommended to provide methods for getting each of the ConfigFiles it manages

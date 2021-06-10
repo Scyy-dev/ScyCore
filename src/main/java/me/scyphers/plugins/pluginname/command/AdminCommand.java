@@ -1,7 +1,7 @@
-package me.Scyy.Util.GenericJavaPlugin.Command;
+package me.scyphers.plugins.pluginname.command;
 
-import me.Scyy.Util.GenericJavaPlugin.Config.PlayerMessenger;
-import me.Scyy.Util.GenericJavaPlugin.Plugin;
+import me.scyphers.plugins.pluginname.config.Messenger;
+import me.scyphers.plugins.pluginname.Plugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -15,7 +15,7 @@ public class AdminCommand implements TabExecutor {
 
     private final Plugin plugin;
 
-    private final PlayerMessenger pm;
+    private final Messenger pm;
 
     public AdminCommand(Plugin plugin) {
         this.plugin = plugin;
