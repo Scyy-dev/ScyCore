@@ -1,51 +1,60 @@
 package me.scyphers.plugins.pluginname.config;
 
 import me.scyphers.plugins.pluginname.Plugin;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 public class SimpleConfigManager implements ConfigManager {
 
     private final Plugin plugin;
 
-    private final Messenger messenger;
+    // Config Files
     private final Settings settings;
+    private final MessengerFile messengerFile;
 
-    /**
-     * Load all configs in
-     * @param plugin the plugin to get Plugin data folder references
-     */
+    private boolean safeToSave = true;
+
     public SimpleConfigManager(Plugin plugin) {
         this.plugin = plugin;
-        this.messenger = new Messenger(this);
         this.settings = new Settings(this);
+        this.messengerFile = new MessengerFile(this);
+
+        // Schedule a repeating task to save the configs
+        long saveTicks = settings.getSaveTicks();
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
+            if (safeToSave) {
+                try {
+                    YamlConfiguration settingsConfig = YamlConfiguration.loadConfiguration(settings.getConfigFile());
+                    settings.save(settingsConfig);
+                    YamlConfiguration messengerConfig = YamlConfiguration.loadConfiguration(messengerFile.getConfigFile());
+                    settings.save(messengerConfig);
+                } catch (Exception e) {
+                    plugin.getLogger().warning("Could not save config files!");
+                    e.printStackTrace();
+                    safeToSave = false;
+                }
+            }
+
+            }, saveTicks, saveTicks);
+
     }
 
-    /**
-     * Reloads all ConfigFiles registered to this handler
-     */
     @Override
     public void reloadConfigs() throws Exception {
-        messenger.reloadConfig();
-        settings.reloadConfig();
-    }
-
-    /**
-     * Get the Player Messenger ConfigFile
-     * @return the Player Messenger
-     */
-    public Messenger getPlayerMessenger() {
-        return messenger;
-    }
-
-    /**
-     * Get the default Settings ConfigFile
-     * @return the Settings
-     */
-    public Settings getSettings() {
-        return settings;
+        settings.reload();
+        messengerFile.reload();
     }
 
     @Override
     public Plugin getPlugin() {
         return plugin;
+    }
+
+    public Settings getSettings() {
+        return settings;
+    }
+
+    public MessengerFile getMessenger() {
+        return messengerFile;
     }
 }

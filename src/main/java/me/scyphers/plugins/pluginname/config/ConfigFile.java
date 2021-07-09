@@ -1,56 +1,26 @@
 package me.scyphers.plugins.pluginname.config;
 
-import com.google.common.base.Charsets;
-import me.scyphers.plugins.pluginname.Plugin;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public abstract class ConfigFile {
 
-    /**
-     * The main plugin instance
-     */
-    protected final Plugin plugin;
+    private final ConfigManager manager;
 
-    /**
-     * The interactable configuration for getting and setting of objects
-     */
-    protected YamlConfiguration config;
+    private final File configFile;
 
-    /**
-     * The file for the configuration
-     */
-    protected final File configFile;
-
-    /**
-     * File path of the config file from the Plugins data folder
-     */
-    protected final String configFilePath;
-
-    /**
-     * The manager for this config file
-     */
-    protected final ConfigManager manager;
-
-    /**
-     * Attaches the configuration getter/setter to the File specified at {@code configFilePath} or if the file is not found
-     * Loads one from the plugin files
-     * @param configFilePath path to the file from this plugins Data Folder
-     */
-    public ConfigFile(ConfigManager manager, String configFilePath, boolean fromResourceFile) {
+    public ConfigFile(ConfigManager manager, String configFilePath, boolean loadFromResource) {
 
         // Save the manager reference
         this.manager = manager;
 
-        this.plugin = manager.getPlugin();
+        Plugin plugin = manager.getPlugin();
 
         // Save the message file path
-        this.configFilePath = configFilePath;
 
         // Save the messages file
         this.configFile = new File(plugin.getDataFolder(), configFilePath);
@@ -58,7 +28,7 @@ public abstract class ConfigFile {
         // Check if the file exists
         if (!configFile.exists()) {
             configFile.getParentFile().mkdirs();
-            if (fromResourceFile) {
+            if (loadFromResource) {
                 plugin.saveResource(configFilePath, false);
             } else {
                 try {
@@ -69,56 +39,51 @@ public abstract class ConfigFile {
             }
         }
 
-        // Create the yml reference
-        this.config = new YamlConfiguration();
+        YamlConfiguration config = new YamlConfiguration();
+
+        // Load the file
         try {
             config.load(configFile);
-        } catch (IOException | InvalidConfigurationException ex) {
-            ex.printStackTrace();
+            this.load(config);
+        // Catch invalid YAML
+        } catch (InvalidConfigurationException e) {
+            plugin.getLogger().warning("Invalid configuration found! Please check your configs!");
+            e.printStackTrace();
+        // IOExceptions and anything else unexpected
+        } catch (Exception e) {
+            plugin.getLogger().warning("Something went wrong loading the files!");
+            e.printStackTrace();
         }
 
     }
 
     /**
-     * Reloads config by reading updating the reference to the file
+     * For loading all of the data into relevant data storage
+     * @param configuration the file configuration to load data from
+     * @throws Exception thrown when there is an error loading data
      */
-    public void reloadConfig() throws Exception {
-        config = YamlConfiguration.loadConfiguration(configFile);
-        InputStream defIMessagesStream = plugin.getResource(configFilePath);
-        if (defIMessagesStream != null) {
-            config.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defIMessagesStream, Charsets.UTF_8)));
-        }
-    }
+    public abstract void load(YamlConfiguration configuration) throws Exception;
 
     /**
-     * Gets the configuration getter/setter
-     * @return the configuration getter/setter
+     * For saving all data into the file
+     * @throws Exception If an error occurs saving the data
      */
-    public YamlConfiguration getConfig() {
-        return config;
-    }
+    public abstract void save(YamlConfiguration configuration) throws Exception;
 
     /**
-     * Gets the File for this ConfigFile
-     * @return the File
+     * For reloading the file after changes have been made. This method only needs to be overridden if calling {@link ConfigFile#load(YamlConfiguration)} multiple times is unsafe
+     * @throws Exception if an error occurs while reloading
      */
+    public void reload() throws Exception {
+        YamlConfiguration configuration = YamlConfiguration.loadConfiguration(configFile);
+        this.load(configuration);
+    }
+
     public File getConfigFile() {
         return configFile;
     }
 
-    /**
-     * Gets the path to the File (including the file) from the plugins data folder
-     * @return the path
-     */
-    public String getConfigFilePath() {
-        return configFilePath;
-    }
-
-    /**
-     * Sets the configuration getter/setter. Required so that the file can be reloaded
-     * @param config the configuration getter/setter
-     */
-    public void setConfig(YamlConfiguration config) {
-        this.config = config;
+    public ConfigManager getManager() {
+        return manager;
     }
 }

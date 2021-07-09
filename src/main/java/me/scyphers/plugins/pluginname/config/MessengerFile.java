@@ -1,43 +1,76 @@
 package me.scyphers.plugins.pluginname.config;
 
+import me.scyphers.plugins.pluginname.api.Messenger;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.*;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Messenger extends ConfigFile {
+public class MessengerFile extends ConfigFile implements Messenger {
 
-    public static final Pattern hex = Pattern.compile("&#[a-zA-Z0-9]{6}");
+    private final Map<String, String> messages;
+
+    private final Map<String, List<String>> listMessages;
+
+    public static final Pattern hex = Pattern.compile("&#[a-fA-F0-9]{6}");
 
     // If using this as a template, feel free to customise this exact char - it was chosen at random
     private static final char interactChar = 'φ';
 
     private String prefix;
 
-    public Messenger(ConfigManager manager) {
+    public MessengerFile(ConfigManager manager) {
         super(manager, "messages.yml", true);
-
-        // Get the prefix
-        String rawPrefix = config.getString("prefix");
-        if (rawPrefix != null) this.prefix = rawPrefix;
-        else this.prefix = "[COULD_NOT_LOAD_PREFIX]";
-
+        this.messages = new HashMap<>();
+        this.listMessages = new HashMap<>();
     }
 
     @Override
-    public void reloadConfig() throws Exception {
-        super.reloadConfig();
-        // Get the prefix
-        String rawPrefix = config.getString("prefix");
+    public void load(YamlConfiguration configuration) throws Exception {
+        messages.clear();
+        listMessages.clear();
+
+        //
+        for (String key : configuration.getKeys(true)) {
+            if (key.equalsIgnoreCase("prefix")) continue;
+
+            // Check if message is a single line message
+            String message = configuration.getString(key, "");
+            if (!message.equalsIgnoreCase("")) {
+                messages.put(key, message);
+                continue;
+            }
+
+            // Check if message is a multi-line message
+            List<String> listMessage = configuration.getStringList(key);
+            if (listMessage.size() != 0) {
+                listMessages.put(key, listMessage);
+                continue;
+            }
+
+            // Something that isn't a message found in config - log it to console
+            getManager().getPlugin().getLogger().info("Invalid format for message found at " + key + " in messages.yml");
+
+        }
+
+        String rawPrefix = configuration.getString("prefix");
         if (rawPrefix != null) this.prefix = rawPrefix;
-        else this.prefix = "[COULD_NOT_LOAD_PREFIX]";
+        else this.prefix = "[COULD_NOT_LOAD_PREFIX] ";
+
+    }
+
+    // Messenger is never updated through code
+    @Override
+    public void save(YamlConfiguration configuration) throws Exception {
+
     }
 
     // Managing Spigots BaseComponents
@@ -158,50 +191,55 @@ public class Messenger extends ConfigFile {
 
     }
 
-    // Sending messages that aren't from messages.yml
+    @Override
     public void send(CommandSender sender, String message) {
         BaseComponent[] components = toComponent(message);
         this.msg(sender, components);
     }
 
-    // Sending messages from messages.yml
+    @Override
     public void msg(CommandSender sender, BaseComponent[] message) {
         sender.spigot().sendMessage(message);
     }
 
+    @Override
     public void msg(Player player, ChatMessageType type, BaseComponent[] message) {
         player.spigot().sendMessage(type, null, message);
     }
 
+    @Override
     public void msg(CommandSender sender, String path) {
         this.msg(sender, path, (String) null);
     }
 
+    @Override
     public void msg(CommandSender sender, String path, String... replacements) {
         BaseComponent[] message = this.getMsg(path, replacements);
         if (message.length == 0) return;
         this.msg(sender, message);
     }
 
-    // Sending list messages from messages.yml
+    @Override
     public void msgList(CommandSender sender, String path) {
         this.msgList(sender, path, (String) null);
     }
 
+    @Override
     public void msgList(CommandSender sender, String path, String... replacements) {
         for (BaseComponent[] message : this.getListMsg(path, replacements)) {
             this.msg(sender, message);
         }
     }
 
-    // Getting messages from messages.yml
+    @Override
     public BaseComponent[] getMsg(String path) {
         return this.getMsg(path, (String) null);
     }
 
+    @Override
     public BaseComponent[] getMsg(String path, String... replacements) {
 
-        String rawMessage = config.getString(path);
+        String rawMessage = messages.get(path);
         if (rawMessage == null) return messageNotFound(path);
 
         if (rawMessage.equals("")) return new BaseComponent[0];
@@ -219,14 +257,15 @@ public class Messenger extends ConfigFile {
 
     }
 
-    // Get messages without formatting them to BaseComponents from messages.yml
+    @Override
     public String getRawMsg(String path) {
         return this.getRawMsg(path, (String) null);
     }
 
+    @Override
     public String getRawMsg(String path, String... replacements) {
 
-        String rawMessage = config.getString(path);
+        String rawMessage = messages.get(path);
 
         if (rawMessage == null) return "Could not find message at " + path;
 
@@ -246,14 +285,21 @@ public class Messenger extends ConfigFile {
 
     }
 
-    // Get list messages from messages.yml
+    @Override
     public List<BaseComponent[]> getListMsg(String path) {
         return this.getListMsg(path, (String) null);
     }
 
+    @Override
     public List<BaseComponent[]> getListMsg(String path, String... replacements) {
 
-        List<String> rawList = config.getStringList(path);
+        List<String> rawList = listMessages.get(path);
+
+        if (rawList == null) {
+            getManager().getPlugin().getLogger().warning("No list message found at " + path + " in messages.yml");
+            return Collections.emptyList();
+        }
+
         List<BaseComponent[]> list = new LinkedList<>();
 
         if (rawList.size() == 0) return Collections.singletonList(messageNotFound(path));
@@ -270,14 +316,20 @@ public class Messenger extends ConfigFile {
 
     }
 
-    // Get list messages without formatting them to BaseComponents from messages.yml
+    @Override
     public List<String> getRawListMsg(String path) {
         return this.getRawListMsg(path, (String) null);
     }
 
+    @Override
     public List<String> getRawListMsg(String path, String... replacements) {
 
-        List<String> rawList = config.getStringList(path);
+        List<String> rawList = listMessages.get(path);
+
+        if (rawList == null) {
+            getManager().getPlugin().getLogger().warning("No list message found at " + path + " in messages.yml");
+            return Collections.emptyList();
+        }
         List<String> list = new LinkedList<>();
 
         if (rawList.size() == 0) return Collections.singletonList("Could not find message at " + path);

@@ -1,6 +1,6 @@
 package me.scyphers.plugins.pluginname.command;
 
-import me.scyphers.plugins.pluginname.config.Messenger;
+import me.scyphers.plugins.pluginname.api.Messenger;
 import me.scyphers.plugins.pluginname.Plugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -19,7 +19,7 @@ public class AdminCommand implements TabExecutor {
 
     public AdminCommand(Plugin plugin) {
         this.plugin = plugin;
-        this.pm = plugin.getConfigManager().getPlayerMessenger();
+        this.pm = plugin.getMessenger();
     }
 
     @Override

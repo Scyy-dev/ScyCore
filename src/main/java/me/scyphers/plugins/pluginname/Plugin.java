@@ -1,8 +1,9 @@
 package me.scyphers.plugins.pluginname;
 
+import me.scyphers.plugins.pluginname.api.Messenger;
 import me.scyphers.plugins.pluginname.command.AdminCommand;
-import me.scyphers.plugins.pluginname.config.SimpleConfigManager;
 import me.scyphers.plugins.pluginname.config.Settings;
+import me.scyphers.plugins.pluginname.config.SimpleConfigManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -33,10 +34,6 @@ public class Plugin extends JavaPlugin {
         super.onDisable();
     }
 
-    /**
-     * Reload all configs registered by the {@link SimpleConfigManager} for this plugin
-     * @param sender Output for messages
-     */
     public void reload(CommandSender sender) {
         try {
             sender.sendMessage("Reloading...");
@@ -48,18 +45,18 @@ public class Plugin extends JavaPlugin {
         }
     }
 
-    /**
-     * Get the Settings for this plugin, each defined in config.yml
-     * @return the Settings
-     */
+    public SimpleConfigManager getConfigManager() {
+        return configManager;
+    }
+
     public Settings getSettings() {
         return configManager.getSettings();
     }
 
-    /**
-     * Provides a bit of information about the plugin
-     * @return the splash text
-     */
+    public Messenger getMessenger() {
+        return configManager.getMessenger();
+    }
+
     public List<String> getSplashText() {
         StringBuilder authors = new StringBuilder();
         for (String author : this.getDescription().getAuthors()) {
@@ -72,10 +69,5 @@ public class Plugin extends JavaPlugin {
         );
     }
 
-    /**
-     * @return the Config Manager
-     */
-    public SimpleConfigManager getConfigManager() {
-        return configManager;
-    }
+
 }
