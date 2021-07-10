@@ -5,6 +5,7 @@ import me.scyphers.plugins.pluginname.command.AdminCommand;
 import me.scyphers.plugins.pluginname.config.Settings;
 import me.scyphers.plugins.pluginname.config.SimpleConfigManager;
 import me.scyphers.plugins.pluginname.event.EventListener;
+import me.scyphers.plugins.pluginname.gui.signs.SignManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,11 +17,15 @@ public class Plugin extends JavaPlugin {
 
     private SimpleConfigManager configManager;
 
+    private SignManager signManager;
+
     @Override
     public void onEnable() {
 
         // Register the Config Manager
         this.configManager = new SimpleConfigManager(this);
+
+        this.signManager = new SignManager(this);
 
         // Register the Admin Command
         AdminCommand adminCommand = new AdminCommand(this);
@@ -49,6 +54,10 @@ public class Plugin extends JavaPlugin {
 
     public SimpleConfigManager getConfigManager() {
         return configManager;
+    }
+
+    public SignManager getSignManager() {
+        return signManager;
     }
 
     public Settings getSettings() {
