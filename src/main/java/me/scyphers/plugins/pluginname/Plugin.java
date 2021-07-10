@@ -76,7 +76,7 @@ public class Plugin extends JavaPlugin {
         authors.delete(authors.length() - 1, authors.length());
         return Arrays.asList(
                 "PLUGIN_NAME v" + this.getDescription().getVersion(),
-                "Built by" + authors.toString()
+                "Built by" + authors
         );
     }
 
