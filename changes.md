@@ -4,6 +4,9 @@ The following provides a list on everything that needs to be changed when using 
 - PLUGIN_PACKAGE refers to the package the plugin is in (e.g. `me.scyphers.plugins.pluginname`)
 - PLUGIN_VERSION refers to the desired version of the plugin
 
+### README.md
+- Rewrite README to suit plugin
+
 ### .gitignore
 - add `changes.md` to remove this file from version tracking
 
@@ -25,5 +28,6 @@ The following provides a list on everything that needs to be changed when using 
 - update `prefix` with a coloured PLUGIN_NAME
 
 ### Misc
+- Rename package to PLUGIN_PACKAGE
 - Remove any unused classes that are not needed to reduce file size
 - Remove `changes.md` once the list is complete
