@@ -4,7 +4,7 @@ import me.scyphers.plugins.pluginname.api.Messenger;
 import me.scyphers.plugins.pluginname.command.AdminCommand;
 import me.scyphers.plugins.pluginname.config.Settings;
 import me.scyphers.plugins.pluginname.config.SimpleConfigManager;
-import me.scyphers.plugins.pluginname.event.PlayerListener;
+import me.scyphers.plugins.pluginname.event.EventListener;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,7 +27,7 @@ public class Plugin extends JavaPlugin {
         this.getCommand("admin").setExecutor(adminCommand);
         this.getCommand("admin").setTabCompleter(adminCommand);
 
-        Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new EventListener(this), this);
 
     }
 
