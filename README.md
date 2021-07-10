@@ -14,15 +14,20 @@ The following is a list of all recommended changes when using this template
 - update `group` with PLUGIN_PACKAGE
 - update `version` with PLUGIN_VERSION
 
-#### Plugin
-- rename class and file to PLUGIN_NAME
-- update method `getSplashText()` with splash text you want to provide
-
 #### plugin.yml
 - update `main` with PLUGIN_PACKAGE and PLUGIN_NAME
 - update `name` with PLUGIN_NAME
 - update `version` with PLUGIN_VERSION
 - update `authors` with all major contributors
+- update `commmands` with the command name(s) the plugin uses, if any
+
+#### Plugin
+- rename class and file to PLUGIN_NAME
+- update method `onEnable()` to suit commands used in `plugin.yml`
+- update method `getSplashText()` with splash text you want to provide
+
+### AdminCommand
+- adjust permissions to relate to plugin
 
 #### messages.yml
 - update `prefix` with a coloured PLUGIN_NAME
