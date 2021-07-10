@@ -1,7 +1,5 @@
 package me.scyphers.plugins.pluginname.gui;
 
-import me.scyphers.plugins.pluginname.gui.type.GUI;
-import me.scyphers.plugins.pluginname.gui.type.InventoryGUI;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.NotNull;
 

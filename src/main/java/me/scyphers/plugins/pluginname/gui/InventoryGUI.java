@@ -1,4 +1,4 @@
-package me.scyphers.plugins.pluginname.gui.type;
+package me.scyphers.plugins.pluginname.gui;
 
 import me.scyphers.plugins.pluginname.Plugin;
 import org.bukkit.Bukkit;
@@ -73,9 +73,9 @@ public abstract class InventoryGUI implements InventoryHolder, GUI<InventoryClic
     public abstract @NotNull GUI<?> handleInteraction(InventoryClickEvent event);
 
     @Override
-    public @Nullable InventoryView open(Player player) {
+    public void open(Player player) {
         inventory.setContents(inventoryItems);
-        return player.openInventory(inventory);
+        player.openInventory(inventory);
     }
 
     /**

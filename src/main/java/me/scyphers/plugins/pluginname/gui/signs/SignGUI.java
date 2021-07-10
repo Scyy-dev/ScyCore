@@ -1,12 +1,10 @@
-package me.scyphers.plugins.pluginname.gui.type;
+package me.scyphers.plugins.pluginname.gui.signs;
 
 import me.scyphers.plugins.pluginname.Plugin;
+import me.scyphers.plugins.pluginname.gui.GUI;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.inventory.InventoryView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,14 +16,17 @@ public abstract class SignGUI implements GUI<SignChangeEvent> {
 
     protected final Player player;
 
-    protected final Sign sign;
+    private final SignManager signManager;
 
-    public SignGUI(GUI<?> lastGUI, Plugin plugin, Player player, Sign sign) {
+    private final int signID;
+
+    public SignGUI(GUI<?> lastGUI, Plugin plugin, Player player, String[] text) {
         this.lastGUI = lastGUI;
         this.plugin = plugin;
         this.player = player;
-        this.sign = sign;
-        sign.setEditable(true);
+        this.signManager = plugin.getSignManager();
+
+        signID = signManager.initSign(this, text);
     }
 
     /**
@@ -37,18 +38,14 @@ public abstract class SignGUI implements GUI<SignChangeEvent> {
     public abstract @NotNull GUI<?> handleInteraction(SignChangeEvent event);
 
     @Override
-    public @Nullable InventoryView open(Player player) {
-        if (sign == null) {
-            plugin.getLogger().warning("Unable to interact with sign");
-        } else {
-            sign.setEditable(true);
+    public void open(Player player) {
+        Sign sign = signManager.getSign(signID);
+        if (sign != null) {
             player.openSign(sign);
+        } else {
+            plugin.getMessenger().msg(player, "errorMessages.cannotOpenSign");
         }
-        return null;
-    }
 
-    public static Listener getListener(Plugin plugin) {
-        return new SignListener(plugin);
     }
 
     @Override
@@ -69,16 +66,6 @@ public abstract class SignGUI implements GUI<SignChangeEvent> {
     @Override
     public boolean shouldClose() {
         return false;
-    }
-
-    private static class SignListener implements Listener {
-        public SignListener(Plugin plugin) {
-        }
-        @EventHandler
-        public void onSignChangeEvent(SignChangeEvent event) {
-            // You have to fill this out as implementations will differ between plugins
-        }
-
     }
 
 }

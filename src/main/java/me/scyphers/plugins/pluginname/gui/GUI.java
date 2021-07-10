@@ -1,4 +1,4 @@
-package me.scyphers.plugins.pluginname.gui.type;
+package me.scyphers.plugins.pluginname.gui;
 
 import me.scyphers.plugins.pluginname.Plugin;
 import org.bukkit.entity.Player;
@@ -26,9 +26,8 @@ public interface GUI<T extends Event> {
     /**
      * Open the GUI for a given player
      * @param player the player to view the GUI
-     * @return the InventoryView if the GUI is an inventory based GUI or null if not applicable (e.g. Book)
      */
-    @Nullable InventoryView open(Player player);
+    void open(Player player);
 
     /**
      * Gets the GUI that was open before this one, or null if opened for the first time
