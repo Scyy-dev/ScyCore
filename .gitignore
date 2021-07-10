@@ -15,6 +15,12 @@
 target/
 *.iml
 
+# Gradle
+.gradle/
+gradlew*
+build
+gradle/wrapper/
+
 # Package Files #
 *.jar
 *.war
