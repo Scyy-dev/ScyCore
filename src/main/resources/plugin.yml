@@ -1,7 +1,7 @@
 main:
 name:
 version:
-api-version: 1.16
+api-version: 1.17
 author: Scyphers
 commands:
   admin:
