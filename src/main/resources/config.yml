@@ -1,0 +1,3 @@
+# How often to save all changed data to file, in ticks (20 ticks = 1 second)
+# Changing this value will require a server restart
+fileSaveTicks: 72000

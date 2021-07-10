@@ -6,8 +6,6 @@ public class Settings extends ConfigFile {
 
     private long saveTicks;
 
-    private int dropTimeout;
-
     public Settings(ConfigManager manager) {
         super(manager, "config.yml", true);
     }
@@ -15,7 +13,6 @@ public class Settings extends ConfigFile {
     @Override
     public void load(YamlConfiguration configuration) throws Exception {
         this.saveTicks = configuration.getLong("fileSaveTicks", 72000);
-        this.dropTimeout = configuration.getInt("itemDropTimeoutTicks", 20);
     }
 
     // Settings are never updated through code
@@ -26,9 +23,5 @@ public class Settings extends ConfigFile {
 
     public long getSaveTicks() {
         return saveTicks;
-    }
-
-    public int getDropTimeout() {
-        return dropTimeout;
     }
 }
