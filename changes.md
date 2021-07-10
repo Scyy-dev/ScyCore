@@ -4,9 +4,16 @@ The following provides a list on everything that needs to be changed when using 
 - PLUGIN_PACKAGE refers to the package the plugin is in (e.g. `me.scyphers.plugins.pluginname`)
 - PLUGIN_VERSION refers to the desired version of the plugin
 
+### .gitignore
+- add `changes.md` to remove this file from version tracking
+
 ### build.gradle
 - update `group` with PLUGIN_PACKAGE
 - update `version` with PLUGIN_VERSION
+
+### Plugin
+- rename class and file to PLUGIN_NAME
+- update method `getSplashText()` with splash text you want to provide
 
 ### plugin.yml
 - update `main` with PLUGIN_PACKAGE and PLUGIN_NAME
@@ -14,12 +21,8 @@ The following provides a list on everything that needs to be changed when using 
 - update `version` with PLUGIN_VERSION
 - update `authors` with all major contributors
 
-### Plugin
-- rename class and file to PLUGIN_NAME
-- update method `getSplashText()` with splash text you want to provide
-
-### .gitignore
-- add `changes.md` to remove this file from version tracking
+### messages.yml
+- update `prefix` with a coloured PLUGIN_NAME
 
 ### Misc
 - Remove any unused classes that are not needed to reduce file size
