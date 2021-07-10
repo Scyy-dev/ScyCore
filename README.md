@@ -19,7 +19,9 @@ The following is a list of all recommended changes when using this template
 - update `name` with PLUGIN_NAME
 - update `version` with PLUGIN_VERSION
 - update `authors` with all major contributors
-- update `commmands` with the command name(s) the plugin uses, if any
+- update `commmands` with the commands and descriptions, if any. 
+  Make sure not to include permissions with the command, as you can then customise the no permission message 
+- update `permissions` with permissions and descriptions, if any
 
 #### Plugin
 - rename class and file to PLUGIN_NAME
