@@ -12,4 +12,5 @@ prefix: "[PLUGIN_NAME] "
 
 errorMessages:
   noPermission: "&cYou do not have permission for that command"
+  invalidCommand: "&cThat command wasn't recognised"
   cannotOpenSign: "&cCould not display sign information. Please try again in a few moments."
