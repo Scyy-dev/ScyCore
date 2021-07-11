@@ -1,7 +1,7 @@
 package me.scyphers.plugins.pluginname;
 
 import me.scyphers.plugins.pluginname.api.Messenger;
-import me.scyphers.plugins.pluginname.command.AdminCommand;
+import me.scyphers.plugins.pluginname.command.CommandFactory;
 import me.scyphers.plugins.pluginname.config.Settings;
 import me.scyphers.plugins.pluginname.config.SimpleConfigManager;
 import me.scyphers.plugins.pluginname.event.EventListener;
@@ -19,6 +19,8 @@ public class Plugin extends JavaPlugin {
 
     private SignManager signManager;
 
+    private CommandFactory commandFactory;
+
     @Override
     public void onEnable() {
 
@@ -28,9 +30,9 @@ public class Plugin extends JavaPlugin {
         this.signManager = new SignManager(this);
 
         // Register the Admin Command
-        AdminCommand adminCommand = new AdminCommand(this);
-        this.getCommand("admin").setExecutor(adminCommand);
-        this.getCommand("admin").setTabCompleter(adminCommand);
+        this.commandFactory = new CommandFactory(this);
+        this.getCommand("admin").setExecutor(commandFactory);
+        this.getCommand("admin").setTabCompleter(commandFactory);
 
         Bukkit.getPluginManager().registerEvents(new EventListener(this), this);
 
