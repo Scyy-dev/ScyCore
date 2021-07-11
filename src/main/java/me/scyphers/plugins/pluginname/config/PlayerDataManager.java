@@ -1,6 +1,7 @@
 package me.scyphers.plugins.pluginname.config;
 
-import org.bukkit.plugin.Plugin;
+import me.scyphers.plugins.pluginname.Plugin;
+import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,13 +9,21 @@ import java.util.UUID;
 
 public class PlayerDataManager implements ConfigManager {
     
-    private final Plugin plugin;
+    private final me.scyphers.plugins.pluginname.Plugin plugin;
     
     private final Map<UUID, PlayerDataFile> dataFiles;
+
+    private boolean safeToSave = true;
+
+    private final int saveTaskID;
     
     public PlayerDataManager(Plugin plugin) {
         this.plugin = plugin;
         this.dataFiles = new HashMap<>();
+
+        int saveTicks = plugin.getSettings().getSaveTicks();
+        this.saveTaskID = scheduleSaveTask(saveTicks);
+
     }
     
     // This is data storage, as such there is only reading and writing, no reloading.
@@ -27,7 +36,30 @@ public class PlayerDataManager implements ConfigManager {
     public Plugin getPlugin() {
         return plugin;
     }
-    
+
+    @Override
+    public int scheduleSaveTask(int saveTicks) {
+        return Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
+            if (safeToSave) {
+                try {
+                    for (PlayerDataFile file : dataFiles.values()) {
+                        file.save();
+                    }
+                } catch (Exception e) {
+                    plugin.getLogger().warning("Could not save player data config files!");
+                    e.printStackTrace();
+                    safeToSave = false;
+                }
+            }
+
+        }, saveTicks, saveTicks);
+    }
+
+    @Override
+    public void cancelSaveTask() {
+        Bukkit.getScheduler().cancelTask(saveTaskID);
+    }
+
     public PlayerDataFile getPlayerDataFile(UUID uuid) {
         if (dataFiles.containsKey(uuid)) {
             return dataFiles.get(uuid);
@@ -37,5 +69,7 @@ public class PlayerDataManager implements ConfigManager {
             return dataFile;
         }
     }
+
+
     
 }

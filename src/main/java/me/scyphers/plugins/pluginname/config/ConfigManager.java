@@ -1,5 +1,6 @@
 package me.scyphers.plugins.pluginname.config;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
 /**
@@ -17,5 +18,17 @@ public interface ConfigManager {
      * @return the plugin
      */
     Plugin getPlugin();
+
+    /**
+     * Schedules the bukkit task to save all config data to file
+     * @param saveTicks how often to save the file, in ticks
+     * @return the bukkit task ID
+     */
+    int scheduleSaveTask(int saveTicks);
+
+    /**
+     * Cancels the save task, to help with server lag or if errors are arising
+     */
+    void cancelSaveTask();
 
 }

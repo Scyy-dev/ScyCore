@@ -4,7 +4,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 public class Settings extends ConfigFile {
 
-    private long saveTicks;
+    private int saveTicks;
 
     public Settings(ConfigManager manager) {
         super(manager, "config.yml", true);
@@ -12,16 +12,16 @@ public class Settings extends ConfigFile {
 
     @Override
     public void load(YamlConfiguration configuration) throws Exception {
-        this.saveTicks = configuration.getLong("fileSaveTicks", 72000);
+        this.saveTicks = configuration.getInt("fileSaveTicks", 72000);
     }
 
     // Settings are never updated through code
     @Override
-    public void save(YamlConfiguration configuration) throws Exception {
-
+    public boolean saveData(YamlConfiguration configuration) throws Exception {
+        return false;
     }
 
-    public long getSaveTicks() {
+    public int getSaveTicks() {
         return saveTicks;
     }
 }

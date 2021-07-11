@@ -14,29 +14,16 @@ public class SimpleConfigManager implements ConfigManager {
 
     private boolean safeToSave = true;
 
+    private final int saveTaskID;
+
     public SimpleConfigManager(Plugin plugin) {
         this.plugin = plugin;
         this.settings = new Settings(this);
         this.messengerFile = new MessengerFile(this);
 
         // Schedule a repeating task to save the configs
-        long saveTicks = settings.getSaveTicks();
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
-            if (safeToSave) {
-                try {
-                    YamlConfiguration settingsConfig = YamlConfiguration.loadConfiguration(settings.getConfigFile());
-                    settings.save(settingsConfig);
-                    YamlConfiguration messengerConfig = YamlConfiguration.loadConfiguration(messengerFile.getConfigFile());
-                    settings.save(messengerConfig);
-                } catch (Exception e) {
-                    plugin.getLogger().warning("Could not save config files!");
-                    e.printStackTrace();
-                    safeToSave = false;
-                }
-            }
-
-            }, saveTicks, saveTicks);
-
+        int saveTicks = settings.getSaveTicks();
+        this.saveTaskID = scheduleSaveTask(saveTicks);
     }
 
     @Override
@@ -48,6 +35,30 @@ public class SimpleConfigManager implements ConfigManager {
     @Override
     public Plugin getPlugin() {
         return plugin;
+    }
+
+    @Override
+    public int scheduleSaveTask(int saveTicks) {
+        return Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
+            if (safeToSave) {
+                try {
+                    YamlConfiguration settingsConfig = YamlConfiguration.loadConfiguration(settings.getConfigFile());
+                    settings.saveData(settingsConfig);
+                    YamlConfiguration messengerConfig = YamlConfiguration.loadConfiguration(messengerFile.getConfigFile());
+                    messengerFile.saveData(messengerConfig);
+                } catch (Exception e) {
+                    plugin.getLogger().warning("Could not save config files!");
+                    e.printStackTrace();
+                    safeToSave = false;
+                }
+            }
+
+        }, saveTicks, saveTicks);
+    }
+
+    @Override
+    public void cancelSaveTask() {
+        Bukkit.getScheduler().cancelTask(saveTaskID);
     }
 
     public Settings getSettings() {

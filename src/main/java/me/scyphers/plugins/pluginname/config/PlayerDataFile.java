@@ -16,8 +16,9 @@ public class PlayerDataFile extends ConfigFile {
     }
 
     @Override
-    public void save(YamlConfiguration configuration) throws Exception {
+    public boolean saveData(YamlConfiguration configuration) throws Exception {
         // This varies depending on plugin purpose
+        return true;
     }
 
 }

@@ -69,8 +69,8 @@ public class MessengerFile extends ConfigFile implements Messenger {
 
     // Messenger is never updated through code
     @Override
-    public void save(YamlConfiguration configuration) throws Exception {
-
+    public boolean saveData(YamlConfiguration configuration) throws Exception {
+        return false;
     }
 
     // Managing Spigots BaseComponents
