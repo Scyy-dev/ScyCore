@@ -1,6 +1,5 @@
 package me.scyphers.plugins.pluginname.config;
 
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
 /**
@@ -12,6 +11,12 @@ public interface ConfigManager {
      * Reloads all configs this manager is responsible for
      */
     void reloadConfigs() throws Exception;
+
+    /**
+     * Saves all data (if any) to file
+     * @throws Exception if there is an exception thrown while saving data
+     */
+    void saveAll() throws Exception;
 
     /**
      * Gets the plugin. Recommended to replace this with your actual plugin if you need access to methods in your plugin

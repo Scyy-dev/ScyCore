@@ -2,7 +2,6 @@ package me.scyphers.plugins.pluginname.config;
 
 import me.scyphers.plugins.pluginname.Plugin;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 public class SimpleConfigManager implements ConfigManager {
 
@@ -33,6 +32,12 @@ public class SimpleConfigManager implements ConfigManager {
     }
 
     @Override
+    public void saveAll() throws Exception {
+        settings.save();
+        messengerFile.save();
+    }
+
+    @Override
     public Plugin getPlugin() {
         return plugin;
     }
@@ -42,10 +47,7 @@ public class SimpleConfigManager implements ConfigManager {
         return Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
             if (safeToSave) {
                 try {
-                    YamlConfiguration settingsConfig = YamlConfiguration.loadConfiguration(settings.getConfigFile());
-                    settings.saveData(settingsConfig);
-                    YamlConfiguration messengerConfig = YamlConfiguration.loadConfiguration(messengerFile.getConfigFile());
-                    messengerFile.saveData(messengerConfig);
+                    saveAll();
                 } catch (Exception e) {
                     plugin.getLogger().warning("Could not save config files!");
                     e.printStackTrace();

@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class PlayerDataManager implements ConfigManager {
     
-    private final me.scyphers.plugins.pluginname.Plugin plugin;
+    private final Plugin plugin;
     
     private final Map<UUID, PlayerDataFile> dataFiles;
 
@@ -33,6 +33,13 @@ public class PlayerDataManager implements ConfigManager {
     }
 
     @Override
+    public void saveAll() throws Exception {
+        for (PlayerDataFile file : dataFiles.values()) {
+            file.save();
+        }
+    }
+
+    @Override
     public Plugin getPlugin() {
         return plugin;
     }
@@ -42,9 +49,7 @@ public class PlayerDataManager implements ConfigManager {
         return Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
             if (safeToSave) {
                 try {
-                    for (PlayerDataFile file : dataFiles.values()) {
-                        file.save();
-                    }
+                    saveAll();
                 } catch (Exception e) {
                     plugin.getLogger().warning("Could not save player data config files!");
                     e.printStackTrace();
