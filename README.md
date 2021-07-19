@@ -28,7 +28,7 @@ The following is a list of all recommended changes when using this template
 - update method `onEnable()` to suit commands used in `plugin.yml`
 - update method `getSplashText()` with splash text you want to provide
 
-### CommandFactory
+#### CommandFactory
 - Update constructor of the factory with new commands and permissions
 
 #### messages.yml
