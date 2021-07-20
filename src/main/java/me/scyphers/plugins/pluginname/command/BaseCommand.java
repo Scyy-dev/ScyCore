@@ -28,6 +28,10 @@ public abstract class BaseCommand {
         return plugin;
     }
 
+    public String getPermission() {
+        return permission;
+    }
+
     public boolean onBaseCommand(CommandSender sender, String[] args) {
         if (!sender.hasPermission(permission)) {
             m.msg(sender, "errorMessages.noPermission"); return true;

@@ -9,10 +9,10 @@ import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CommandFactory implements TabExecutor {
 
@@ -25,10 +25,8 @@ public class CommandFactory implements TabExecutor {
     public CommandFactory(Plugin plugin) {
         this.plugin = plugin;
         this.m = plugin.getMessenger();
-
-        // Weird text alignment is to make permissions align
         this.commands = Map.of(
-                "reload",   new ReloadCommand  (plugin, "tradingcards.commands.reload")
+                "reload", new ReloadCommand(plugin, "tradingcards.commands.reload")
         );
     }
 
@@ -60,7 +58,7 @@ public class CommandFactory implements TabExecutor {
         if (!sender.hasPermission("tradingcards.commands")) return Collections.emptyList();
 
         if (args.length == 1) {
-            return new ArrayList<>(commands.keySet());
+            return commands.keySet().stream().filter(s -> sender.hasPermission(commands.get(s).getPermission())).collect(Collectors.toList());
         }
 
         BaseCommand baseCommand = commands.get(args[0]);
