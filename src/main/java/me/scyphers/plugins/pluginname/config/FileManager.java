@@ -2,10 +2,12 @@ package me.scyphers.plugins.pluginname.config;
 
 import org.bukkit.plugin.Plugin;
 
+import java.io.File;
+
 /**
  * Manager for a collection of config files. Recommended to provide methods for getting each of the ConfigFiles it manages
  */
-public interface ConfigManager {
+public interface FileManager {
 
     /**
      * Reloads all configs this manager is responsible for
@@ -23,6 +25,14 @@ public interface ConfigManager {
      * @return the plugin
      */
     Plugin getPlugin();
+
+    /**
+     * Get the folder this manager covers, or the root plugin folder if undefined
+     * @return the folder this manager is responsible for
+     */
+    default File getEnclosingFolder() {
+        return getPlugin().getDataFolder();
+    }
 
     /**
      * Schedules the bukkit task to save all config data to file

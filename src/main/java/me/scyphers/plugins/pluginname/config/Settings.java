@@ -6,19 +6,13 @@ public class Settings extends ConfigFile {
 
     private int saveTicks;
 
-    public Settings(ConfigManager manager) {
-        super(manager, "config.yml", true);
+    public Settings(FileManager manager) throws Exception {
+        super(manager, "config.yml");
     }
 
     @Override
-    public void load(YamlConfiguration configuration) throws Exception {
+    public void load(YamlConfiguration configuration, YamlConfiguration defaults) throws Exception {
         this.saveTicks = configuration.getInt("fileSaveTicks", 72000);
-    }
-
-    // Settings are never updated through code
-    @Override
-    public boolean saveData(YamlConfiguration configuration) throws Exception {
-        return false;
     }
 
     public int getSaveTicks() {

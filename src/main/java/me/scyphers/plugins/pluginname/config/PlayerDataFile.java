@@ -4,21 +4,20 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.UUID;
 
-public class PlayerDataFile extends ConfigFile {
+public class PlayerDataFile extends StorageFile {
 
-    public PlayerDataFile(ConfigManager manager, UUID playerUUID) {
-        super(manager, playerUUID.toString() + ".yml", false);
+    public PlayerDataFile(FileManager manager, UUID playerUUID) throws Exception {
+        super(manager, playerUUID);
+    }
+
+
+    @Override
+    public void load(YamlConfiguration storageFile) throws Exception {
+
     }
 
     @Override
-    public void load(YamlConfiguration configuration) throws Exception {
-        // This varies depending on plugin purpose
-    }
+    public void saveData(YamlConfiguration configuration) throws Exception {
 
-    @Override
-    public boolean saveData(YamlConfiguration configuration) throws Exception {
-        // This varies depending on plugin purpose
-        return true;
     }
-
 }

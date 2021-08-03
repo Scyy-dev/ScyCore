@@ -3,7 +3,7 @@ package me.scyphers.plugins.pluginname.config;
 import me.scyphers.plugins.pluginname.Plugin;
 import org.bukkit.Bukkit;
 
-public class SimpleConfigManager implements ConfigManager {
+public class SimpleFileManager implements FileManager {
 
     private final Plugin plugin;
 
@@ -15,7 +15,7 @@ public class SimpleConfigManager implements ConfigManager {
 
     private final int saveTaskID;
 
-    public SimpleConfigManager(Plugin plugin) {
+    public SimpleFileManager(Plugin plugin) throws Exception {
         this.plugin = plugin;
         this.settings = new Settings(this);
         this.messengerFile = new MessengerFile(this);

@@ -3,23 +3,29 @@ package me.scyphers.plugins.pluginname.config;
 import me.scyphers.plugins.pluginname.Plugin;
 import org.bukkit.Bukkit;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class PlayerDataManager implements ConfigManager {
+public class PlayerFileManager implements FileManager {
     
     private final Plugin plugin;
     
     private final Map<UUID, PlayerDataFile> dataFiles;
 
+    private final File enclosingFolder;
+
     private boolean safeToSave = true;
 
     private final int saveTaskID;
     
-    public PlayerDataManager(Plugin plugin) {
+    public PlayerFileManager(Plugin plugin, String dataFolderName) {
         this.plugin = plugin;
         this.dataFiles = new HashMap<>();
+
+        this.enclosingFolder = new File(plugin.getDataFolder(), dataFolderName);
+        enclosingFolder.mkdirs();
 
         int saveTicks = plugin.getSettings().getSaveTicks();
         this.saveTaskID = scheduleSaveTask(saveTicks);
@@ -45,6 +51,11 @@ public class PlayerDataManager implements ConfigManager {
     }
 
     @Override
+    public File getEnclosingFolder() {
+        return enclosingFolder;
+    }
+
+    @Override
     public int scheduleSaveTask(int saveTicks) {
         return Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
             if (safeToSave) {
@@ -65,7 +76,7 @@ public class PlayerDataManager implements ConfigManager {
         Bukkit.getScheduler().cancelTask(saveTaskID);
     }
 
-    public PlayerDataFile getPlayerDataFile(UUID uuid) {
+    public PlayerDataFile getDataFile(UUID uuid) throws Exception {
         if (dataFiles.containsKey(uuid)) {
             return dataFiles.get(uuid);
         } else {
@@ -74,7 +85,5 @@ public class PlayerDataManager implements ConfigManager {
             return dataFile;
         }
     }
-
-
     
 }

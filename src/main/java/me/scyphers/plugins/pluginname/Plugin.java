@@ -3,7 +3,7 @@ package me.scyphers.plugins.pluginname;
 import me.scyphers.plugins.pluginname.api.Messenger;
 import me.scyphers.plugins.pluginname.command.CommandFactory;
 import me.scyphers.plugins.pluginname.config.Settings;
-import me.scyphers.plugins.pluginname.config.SimpleConfigManager;
+import me.scyphers.plugins.pluginname.config.SimpleFileManager;
 import me.scyphers.plugins.pluginname.event.EventListener;
 import me.scyphers.plugins.pluginname.gui.signs.SignManager;
 import org.bukkit.Bukkit;
@@ -15,32 +15,40 @@ import java.util.List;
 
 public class Plugin extends JavaPlugin {
 
-    private SimpleConfigManager configManager;
+    private SimpleFileManager configManager;
 
     private SignManager signManager;
 
-    private CommandFactory commandFactory;
+    private boolean successfulEnable = false;
 
     @Override
     public void onEnable() {
 
         // Register the Config Manager
-        this.configManager = new SimpleConfigManager(this);
+        try {
+            this.configManager = new SimpleFileManager(this);
+        } catch (Exception e) {
+            getLogger().warning("Something went wrong loading configs!");
+            e.printStackTrace();
+            getServer().getPluginManager().disablePlugin(this);
+        }
 
         this.signManager = new SignManager(this);
 
         // Register the Admin Command
-        this.commandFactory = new CommandFactory(this);
+        CommandFactory commandFactory = new CommandFactory(this);
         this.getCommand("admin").setExecutor(commandFactory);
         this.getCommand("admin").setTabCompleter(commandFactory);
 
         Bukkit.getPluginManager().registerEvents(new EventListener(this), this);
 
+        this.successfulEnable = true;
+
     }
 
     @Override
     public void onDisable() {
-        super.onDisable();
+        if (!successfulEnable) return;
     }
 
     public void reload(CommandSender sender) {
@@ -54,7 +62,7 @@ public class Plugin extends JavaPlugin {
         }
     }
 
-    public SimpleConfigManager getConfigManager() {
+    public SimpleFileManager getConfigManager() {
         return configManager;
     }
 

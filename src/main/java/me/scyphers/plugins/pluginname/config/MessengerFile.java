@@ -27,16 +27,16 @@ public class MessengerFile extends ConfigFile implements Messenger {
 
     private String prefix;
 
-    public MessengerFile(ConfigManager manager) {
-        super(manager, "messages.yml", true);
+    public MessengerFile(FileManager manager) throws Exception {
+        super(manager, "messages.yml");
     }
 
     @Override
-    public void load(YamlConfiguration configuration) throws Exception {
+    public void load(YamlConfiguration configuration, YamlConfiguration defaults) throws Exception {
         this.messages = new HashMap<>();
-        this.messages = new HashMap<>();
+        this.listMessages = new HashMap<>();
 
-        //
+        // Loop through every key
         for (String key : configuration.getKeys(true)) {
             if (key.equalsIgnoreCase("prefix")) continue;
 
