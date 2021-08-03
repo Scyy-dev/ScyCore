@@ -59,16 +59,33 @@ public class MessengerFile extends ConfigFile implements Messenger {
 
         }
 
+        // Loop through the defaults to check for any values missing
+        for (String key : defaults.getKeys(true)) {
+            if (key.equalsIgnoreCase("prefix")) continue;
+
+            // Check if message is a single line message
+            String message = defaults.getString(key, "");
+            if (!message.equalsIgnoreCase("") && !messages.containsKey(key)) {
+                messages.put(key, message);
+                continue;
+            }
+
+            // Check if message is a multi-line message
+            List<String> listMessage = defaults.getStringList(key);
+            if (listMessage.size() != 0 && !listMessages.containsKey(key)) {
+                listMessages.put(key, listMessage);
+                continue;
+            }
+
+            // Something that isn't a message found in config - log it to console
+            getManager().getPlugin().getLogger().info("Invalid format for message found at " + key + " in messages.yml");
+
+        }
+
         String rawPrefix = configuration.getString("prefix");
         if (rawPrefix != null) this.prefix = rawPrefix;
         else this.prefix = "[COULD_NOT_LOAD_PREFIX] ";
 
-    }
-
-    // Messenger is never updated through code
-    @Override
-    public boolean saveData(YamlConfiguration configuration) throws Exception {
-        return false;
     }
 
     // Managing Spigots BaseComponents
