@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -64,7 +65,12 @@ public class CommandFactory implements TabExecutor {
         BaseCommand baseCommand = commands.get(args[0]);
         if (baseCommand == null) return Collections.emptyList();
 
-        return baseCommand.onBaseTabComplete(sender, args);
+        List<String> messages = baseCommand.onTabComplete(sender, args);
+
+        // Filter the responses for what the sender has partially typed
+        return messages.stream()
+                .filter(s -> s.toLowerCase(Locale.ROOT).startsWith(args[args.length - 1].toLowerCase(Locale.ROOT)))
+                .collect(Collectors.toList());
 
     }
 }
