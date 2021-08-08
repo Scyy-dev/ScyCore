@@ -1,13 +1,13 @@
 package me.scyphers.plugins.pluginname.command;
 
-import me.scyphers.fruitservers.tradingcards.TradingCards;
+import me.scyphers.plugins.pluginname.Plugin;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public abstract class PlayerCommand extends BaseCommand {
 
-    public PlayerCommand(TradingCards plugin, String permission) {
-        super(plugin, permission);
+    public PlayerCommand(Plugin plugin, String permission, int minArgLength) {
+        super(plugin, permission, minArgLength);
     }
 
     @Override
