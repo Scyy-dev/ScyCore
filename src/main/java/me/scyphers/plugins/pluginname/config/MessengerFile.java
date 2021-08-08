@@ -74,11 +74,7 @@ public class MessengerFile extends ConfigFile implements Messenger {
             List<String> listMessage = defaults.getStringList(key);
             if (listMessage.size() != 0 && !listMessages.containsKey(key)) {
                 listMessages.put(key, listMessage);
-                continue;
             }
-
-            // Something that isn't a message found in config - log it to console
-            getManager().getPlugin().getLogger().info("Invalid format for message found at " + key + " in messages.yml");
 
         }
 
