@@ -27,7 +27,7 @@ public class CommandFactory implements TabExecutor {
         this.plugin = plugin;
         this.m = plugin.getMessenger();
         this.commands = Map.of(
-                "reload", new ReloadCommand(plugin, "tradingcards.commands.reload")
+                "reload", new ReloadCommand(plugin, "change.permission.here")
         );
     }
 
