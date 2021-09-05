@@ -23,10 +23,9 @@ The following is a list of all recommended changes when using this template
   Make sure not to include permissions with the command, as you can then customise the no permission message 
 - update `permissions` with permissions and descriptions, if any
 
-#### Plugin
-- rename class and file to PLUGIN_NAME
-- update method `onEnable()` to suit commands used in `plugin.yml`
-- update method `getSplashText()` with splash text you want to provide
+#### Plugin Class
+- Will need to extend the `BasePlugin` class
+- Recommended being made final
 
 #### CommandFactory
 - Update constructor of the factory with new commands and permissions
