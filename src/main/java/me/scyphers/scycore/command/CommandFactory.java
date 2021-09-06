@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class CommandFactory implements TabExecutor {
@@ -23,10 +24,21 @@ public class CommandFactory implements TabExecutor {
 
     private final Map<String, BaseCommand> commands;
 
+    private final Consumer<CommandSender> noArgFunction;
+
     public CommandFactory(BasePlugin plugin, String baseCommandName, Map<String, BaseCommand> commands) {
+        this(plugin, baseCommandName, commands, sender -> {
+            for (String line : plugin.getSplashText()) {
+                plugin.getMessenger().send(sender, line);
+            }
+        });
+    }
+
+    public CommandFactory(BasePlugin plugin, String baseCommandName, Map<String, BaseCommand> commands, Consumer<CommandSender> noArgFunction) {
         this.plugin = plugin;
         this.m = plugin.getMessenger();
         this.commands = commands;
+        this.noArgFunction = noArgFunction;
 
         // Register the command
         PluginCommand command = plugin.getCommand(baseCommandName);
@@ -38,11 +50,9 @@ public class CommandFactory implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        // Splash text
+        // No argument handling
         if (args.length == 0) {
-            for (String line : plugin.getSplashText()) {
-                m.send(sender, line);
-            }
+            noArgFunction.accept(sender);
             return true;
         }
 
