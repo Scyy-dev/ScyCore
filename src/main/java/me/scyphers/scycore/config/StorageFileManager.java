@@ -6,13 +6,14 @@ import org.bukkit.Bukkit;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
-public class PlayerFileManager implements FileManager {
+public class StorageFileManager<T extends StorageFile> implements FileManager {
     
     private final BasePlugin plugin;
     
-    private final Map<UUID, PlayerDataFile> dataFiles;
+    private final Map<UUID, T> dataFiles;
 
     private final File enclosingFolder;
 
@@ -20,7 +21,7 @@ public class PlayerFileManager implements FileManager {
 
     private final int saveTaskID;
     
-    public PlayerFileManager(BasePlugin plugin, String dataFolderName) {
+    public StorageFileManager(BasePlugin plugin, String dataFolderName) {
         this.plugin = plugin;
         this.dataFiles = new HashMap<>();
 
@@ -34,13 +35,13 @@ public class PlayerFileManager implements FileManager {
     
     // This is data storage, as such there is only reading and writing, no reloading.
     @Override
-    public void reloadConfigs() throws Exception {
+    public void reloadConfigs() {
         
     }
 
     @Override
     public void saveAll() throws Exception {
-        for (PlayerDataFile file : dataFiles.values()) {
+        for (T file : dataFiles.values()) {
             file.save();
         }
     }
@@ -76,14 +77,20 @@ public class PlayerFileManager implements FileManager {
         Bukkit.getScheduler().cancelTask(saveTaskID);
     }
 
-    public PlayerDataFile getDataFile(UUID uuid) throws Exception {
-        if (dataFiles.containsKey(uuid)) {
-            return dataFiles.get(uuid);
-        } else {
-            PlayerDataFile dataFile = new PlayerDataFile(this, uuid);
-            dataFiles.put(uuid, dataFile);
-            return dataFile;
-        }
+    public Set<UUID> getKeys() {
+        return dataFiles.keySet();
+    }
+
+    public boolean contains(UUID uuid) {
+        return dataFiles.containsKey(uuid);
+    }
+
+    public void addStorageFile(UUID uuid, T file) {
+        dataFiles.put(uuid, file);
+    }
+
+    public T getStorageFile(UUID uuid) {
+        return dataFiles.get(uuid);
     }
     
 }
