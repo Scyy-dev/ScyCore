@@ -16,10 +16,10 @@ target/
 *.iml
 
 # Gradle
-.gradle/
+.gradle
+/build/
 gradlew*
-build
-gradle/wrapper/
+!gradle-wrapper.jar
 
 # Package Files #
 *.jar
