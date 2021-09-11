@@ -3,7 +3,9 @@ package me.scyphers.scycore.config;
 import me.scyphers.scycore.BasePlugin;
 import org.bukkit.Bukkit;
 
-public class SimpleFileManager implements FileManager {
+import java.util.List;
+
+public abstract class BaseConfigFileManager implements FileManager {
 
     private final BasePlugin plugin;
 
@@ -11,30 +13,42 @@ public class SimpleFileManager implements FileManager {
     private final Settings settings;
     private final MessengerFile messengerFile;
 
+    private final ConfigFile[] otherFiles;
+
     private boolean safeToSave = true;
 
     private final int saveTaskID;
 
-    public SimpleFileManager(BasePlugin plugin) throws Exception {
+    public BaseConfigFileManager(BasePlugin plugin) throws Exception {
         this.plugin = plugin;
         this.settings = new Settings(this);
         this.messengerFile = new MessengerFile(this);
+
+        this.otherFiles = this.registerOtherFiles();
 
         // Schedule a repeating task to save the configs
         int saveTicks = settings.getSaveTicks();
         this.saveTaskID = scheduleSaveTask(saveTicks);
     }
 
+    public abstract ConfigFile[] registerOtherFiles();
+
     @Override
     public void reloadConfigs() throws Exception {
         settings.reload();
         messengerFile.reload();
+        for (ConfigFile file : otherFiles) {
+            file.reload();
+        }
     }
 
     @Override
     public void saveAll() throws Exception {
         settings.save();
         messengerFile.save();
+        for (ConfigFile file : otherFiles) {
+            file.reload();
+        }
     }
 
     @Override
