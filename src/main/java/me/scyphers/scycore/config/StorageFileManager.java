@@ -4,10 +4,7 @@ import me.scyphers.scycore.BasePlugin;
 import org.bukkit.Bukkit;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class StorageFileManager<T extends StorageFile> implements FileManager {
     
@@ -91,6 +88,34 @@ public class StorageFileManager<T extends StorageFile> implements FileManager {
 
     public T getStorageFile(UUID uuid) {
         return dataFiles.get(uuid);
+    }
+
+    public Set<UUID> getFileKeys() {
+
+        String[] files = enclosingFolder.list();
+        if (files == null || files.length == 0) return Collections.emptySet();
+
+        Set<UUID> keys = new HashSet<>();
+
+        for (String fileName : files) {
+
+            if (fileName.length() != 40) {
+                plugin.getLogger().warning("Invalid filename found with name " + fileName);
+                continue;
+            }
+
+            String rawUUID = fileName.substring(0, 36);
+
+            UUID uuid = UUID.fromString(rawUUID);
+            keys.add(uuid);
+        }
+
+        return keys;
+
+    }
+
+    public void clear() {
+        this.dataFiles.clear();
     }
     
 }
