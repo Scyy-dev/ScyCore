@@ -11,7 +11,7 @@ public abstract class PlayerCommand extends BaseCommand {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, String[] args) {
+    public final boolean onCommand(CommandSender sender, String[] args) {
         if (!(sender instanceof Player player)) {
             m.msg(sender, "errorMessages.mustBePlayer");
             return true;
