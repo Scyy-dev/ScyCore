@@ -14,3 +14,4 @@ errorMessages:
   noPermission: "&cYou do not have permission for that command"
   invalidCommand: "&cThat command wasn't recognised"
   invalidCommandLength: "&cInvalid command length!"
+  invalidCommandArgument: "&cInvalid command argument '&6%arg%&c'. Must be one of &6%expected%"
