@@ -4,7 +4,6 @@ import me.scyphers.scycore.BasePlugin;
 import me.scyphers.scycore.api.Messenger;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseCommand {
@@ -17,6 +16,12 @@ public abstract class BaseCommand {
 
     private final int minArgLength;
 
+    /**
+     * For creating commands that work with {@link CommandFactory}
+     * @param plugin The plugin that the {@link CommandFactory} is linked to
+     * @param permission The permission this command requires
+     * @param minArgLength The number of arguments this command requires (not including the base command name)
+     */
     public BaseCommand(BasePlugin plugin, String permission, int minArgLength) {
         this.plugin = plugin;
         this.m = plugin.getMessenger();
@@ -50,13 +55,5 @@ public abstract class BaseCommand {
     }
 
     public abstract List<String> onTabComplete(CommandSender sender, String[] args);
-
-    protected List<String> itemAmountList() {
-        List<String> list = new ArrayList<>();
-        for (int i = 1; i < 65; i++) {
-            list.add(Integer.toString(i));
-        }
-        return list;
-    }
 
 }
