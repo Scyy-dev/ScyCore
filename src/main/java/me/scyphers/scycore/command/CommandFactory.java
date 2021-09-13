@@ -70,8 +70,6 @@ public class CommandFactory implements TabExecutor {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
 
-        if (!sender.hasPermission("tradingcards.commands")) return Collections.emptyList();
-
         if (args.length == 1) {
             return commands.keySet().stream().filter(s -> sender.hasPermission(commands.get(s).getPermission())).collect(Collectors.toList());
         }
