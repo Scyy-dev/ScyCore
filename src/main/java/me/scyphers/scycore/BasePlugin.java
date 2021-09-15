@@ -32,7 +32,7 @@ public abstract class BasePlugin extends JavaPlugin {
      * Gets the settings for this plugin. Settings are taken from <code>config.yml</code>
      * @return the settings
      */
-    public abstract FileSettings getFileSettings();
+    public abstract FileSettings getSettings();
 
     /**
      * Gets the messenger for this plugin. Messages are configured in <code>messages.yml</code>

@@ -20,7 +20,9 @@ public class ScyCore extends BasePlugin {
     }
 
     @Override
-    public void reload(CommandSender sender) {}
+    public void reload(CommandSender sender) {
+
+    }
 
     @Override
     public boolean wasSuccessfulEnable() {
@@ -33,7 +35,7 @@ public class ScyCore extends BasePlugin {
     }
 
     @Override
-    public FileSettings getFileSettings() {
+    public FileSettings getSettings() {
         throw new IllegalCallerException("Base plugin cannot host a Settings file");
     }
 

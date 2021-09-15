@@ -18,7 +18,7 @@ public class SimpleFileManager implements FileManager {
         this.messengerFile = new MessengerFile(this);
 
         // Schedule a repeating task to save the configs
-        int saveTicks = plugin.getFileSettings().getSaveTicks();
+        int saveTicks = plugin.getSettings().getSaveTicks();
         this.saveTaskID = scheduleSaveTask(saveTicks);
     }
 
