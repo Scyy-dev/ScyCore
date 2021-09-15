@@ -7,8 +7,6 @@ public class SimpleFileManager implements FileManager {
 
     private final BasePlugin plugin;
 
-    // Config Files
-    private final Settings settings;
     private final MessengerFile messengerFile;
 
     private boolean safeToSave = true;
@@ -17,23 +15,20 @@ public class SimpleFileManager implements FileManager {
 
     public SimpleFileManager(BasePlugin plugin) throws Exception {
         this.plugin = plugin;
-        this.settings = new Settings(this);
         this.messengerFile = new MessengerFile(this);
 
         // Schedule a repeating task to save the configs
-        int saveTicks = settings.getSaveTicks();
+        int saveTicks = plugin.getFileSettings().getSaveTicks();
         this.saveTaskID = scheduleSaveTask(saveTicks);
     }
 
     @Override
     public void reloadConfigs() throws Exception {
-        settings.reload();
         messengerFile.reload();
     }
 
     @Override
     public void saveAll() throws Exception {
-        settings.save();
         messengerFile.save();
     }
 
@@ -61,10 +56,6 @@ public class SimpleFileManager implements FileManager {
     @Override
     public void cancelSaveTask() {
         Bukkit.getScheduler().cancelTask(saveTaskID);
-    }
-
-    public Settings getSettings() {
-        return settings;
     }
 
     public MessengerFile getMessenger() {

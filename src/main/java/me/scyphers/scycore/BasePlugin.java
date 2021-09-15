@@ -1,8 +1,8 @@
 package me.scyphers.scycore;
 
+import me.scyphers.scycore.api.FileSettings;
 import me.scyphers.scycore.api.Messenger;
 import me.scyphers.scycore.config.FileManager;
-import me.scyphers.scycore.config.Settings;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -32,7 +32,7 @@ public abstract class BasePlugin extends JavaPlugin {
      * Gets the settings for this plugin. Settings are taken from <code>config.yml</code>
      * @return the settings
      */
-    public abstract Settings getSettings();
+    public abstract FileSettings getFileSettings();
 
     /**
      * Gets the messenger for this plugin. Messages are configured in <code>messages.yml</code>

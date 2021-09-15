@@ -25,7 +25,7 @@ public class StorageFileManager<T extends StorageFile> implements FileManager {
         this.enclosingFolder = new File(plugin.getDataFolder(), dataFolderName);
         enclosingFolder.mkdirs();
 
-        int saveTicks = plugin.getSettings().getSaveTicks();
+        int saveTicks = plugin.getFileSettings().getSaveTicks();
         this.saveTaskID = scheduleSaveTask(saveTicks);
 
     }
