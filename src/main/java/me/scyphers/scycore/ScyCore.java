@@ -1,6 +1,6 @@
 package me.scyphers.scycore;
 
-import me.scyphers.scycore.api.FileSettings;
+import me.scyphers.scycore.api.PluginSettings;
 import me.scyphers.scycore.api.Messenger;
 import me.scyphers.scycore.config.FileManager;
 import org.bukkit.command.CommandSender;
@@ -35,7 +35,7 @@ public class ScyCore extends BasePlugin {
     }
 
     @Override
-    public FileSettings getSettings() {
+    public PluginSettings getSettings() {
         throw new IllegalCallerException("Base plugin cannot host a Settings file");
     }
 
