@@ -11,15 +11,17 @@ public class SimpleFileManager implements FileManager {
 
     private boolean safeToSave = true;
 
-    private final int saveTaskID;
+    private int saveTaskID;
 
     public SimpleFileManager(BasePlugin plugin) throws Exception {
         this.plugin = plugin;
         this.messengerFile = new MessengerFile(this);
 
         // Schedule a repeating task to save the configs
-        int saveTicks = plugin.getSettings().getSaveTicks();
-        this.saveTaskID = scheduleSaveTask(saveTicks);
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
+            int saveTicks = plugin.getSettings().getSaveTicks();
+            this.saveTaskID = scheduleSaveTask(saveTicks);
+        });
     }
 
     @Override
@@ -36,6 +38,7 @@ public class SimpleFileManager implements FileManager {
     public BasePlugin getPlugin() {
         return plugin;
     }
+
 
     @Override
     public int scheduleSaveTask(int saveTicks) {
