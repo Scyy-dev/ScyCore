@@ -1,6 +1,6 @@
 package me.scyphers.scycore.config;
 
-import me.scyphers.scycore.util.ItemDisplayRegistry;
+import me.scyphers.scycore.util.ItemCache;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class ItemDisplayRegistryFile extends ConfigStorageFile implements ItemDisplayRegistry {
+public class ItemCacheFile extends ConfigStorageFile implements ItemCache {
 
     private Map<String, ItemStack> displayItems;
 
@@ -20,7 +20,7 @@ public class ItemDisplayRegistryFile extends ConfigStorageFile implements ItemDi
      * @param filePath the path of the file, starting from this plugins data folder
      * @throws Exception if an exception occurs while initialising the file or reading data from it
      */
-    public ItemDisplayRegistryFile(FileManager manager, String filePath) throws Exception {
+    public ItemCacheFile(FileManager manager, String filePath) throws Exception {
         super(manager, filePath);
     }
 
@@ -43,18 +43,18 @@ public class ItemDisplayRegistryFile extends ConfigStorageFile implements ItemDi
     }
 
     @Override
-    public ItemStack getDisplay(String key) {
+    public ItemStack getItem(String key) {
         ItemStack display = displayItems.get(key);
         return display == null ? new ItemStack(Material.STONE) : display.clone();
     }
 
     @Override
-    public void addDisplay(String key, ItemStack display) {
+    public void addItem(String key, ItemStack display) {
         displayItems.put(key, display);
     }
 
     @Override
-    public void removeDisplay(String key) {
+    public void removeItem(String key) {
         displayItems.remove(key);
     }
 

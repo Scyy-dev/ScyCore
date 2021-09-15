@@ -2,20 +2,20 @@ package me.scyphers.scycore.command.commands;
 
 import me.scyphers.scycore.BasePlugin;
 import me.scyphers.scycore.command.PlayerCommand;
-import me.scyphers.scycore.util.ItemDisplayRegistry;
+import me.scyphers.scycore.util.ItemCache;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
-public class ItemDisplayCommand extends PlayerCommand {
+public class ItemCacheCommand extends PlayerCommand {
 
-    private final ItemDisplayRegistry registry;
+    private final ItemCache itemCache;
 
-    public ItemDisplayCommand(BasePlugin plugin, String permission, ItemDisplayRegistry registry) {
+    public ItemCacheCommand(BasePlugin plugin, String permission, ItemCache itemCache) {
         super(plugin, permission, 3);
-        this.registry = registry;
+        this.itemCache = itemCache;
     }
 
     @Override
@@ -26,11 +26,11 @@ public class ItemDisplayCommand extends PlayerCommand {
         switch (operation.toLowerCase(Locale.ROOT)) {
             case "add" -> {
                 ItemStack item = player.getInventory().getItemInMainHand();
-                registry.addDisplay(key, item);
+                itemCache.addItem(key, item);
                 return true;
             }
             case "remove" -> {
-                registry.removeDisplay(key);
+                itemCache.removeItem(key);
                 return true;
             }
             default -> {
@@ -47,7 +47,7 @@ public class ItemDisplayCommand extends PlayerCommand {
                 return new ArrayList<>(Arrays.asList("add", "remove"));
             case 2:
                 if (args[1].equalsIgnoreCase("remove")) {
-                    return new ArrayList<>(registry.getKeys());
+                    return new ArrayList<>(itemCache.getKeys());
                 }
             default:
                 return Collections.emptyList();
