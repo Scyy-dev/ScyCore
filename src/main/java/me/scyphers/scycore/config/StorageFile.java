@@ -55,6 +55,10 @@ public abstract class StorageFile extends DataFile {
         configuration.save(getFile());
     }
 
+    public boolean remove() {
+        return this.getFile().delete();
+    }
+
     public UUID getUUID() {
         return uuid;
     }

@@ -117,5 +117,12 @@ public class StorageFileManager<T extends StorageFile> implements FileManager {
     public void clear() {
         this.dataFiles.clear();
     }
+
+    public void removeStorageFile(UUID uuid) {
+        if (!dataFiles.containsKey(uuid)) return;
+        StorageFile file = dataFiles.get(uuid);
+        file.remove();
+        dataFiles.remove(uuid);
+    }
     
 }
