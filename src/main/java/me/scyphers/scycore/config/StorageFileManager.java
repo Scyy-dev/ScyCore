@@ -91,27 +91,18 @@ public class StorageFileManager<T extends StorageFile> implements FileManager {
     }
 
     public Set<UUID> getFileKeys() {
-
         String[] files = enclosingFolder.list();
         if (files == null || files.length == 0) return Collections.emptySet();
 
         Set<UUID> keys = new HashSet<>();
 
         for (String fileName : files) {
-
-            if (fileName.length() != 40) {
-                plugin.getLogger().warning("Invalid filename found with name " + fileName);
-                continue;
-            }
-
-            String rawUUID = fileName.substring(0, 36);
-
+            String rawUUID = fileName.replace(".yml", "");
             UUID uuid = UUID.fromString(rawUUID);
             keys.add(uuid);
         }
 
         return keys;
-
     }
 
     public void clear() {
