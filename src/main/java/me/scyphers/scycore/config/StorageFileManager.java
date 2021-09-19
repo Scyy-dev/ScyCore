@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.Consumer;
 
 public class StorageFileManager<T extends StorageFile> implements FileManager {
     
@@ -114,6 +115,10 @@ public class StorageFileManager<T extends StorageFile> implements FileManager {
         StorageFile file = dataFiles.get(uuid);
         file.remove();
         dataFiles.remove(uuid);
+    }
+
+    public void forEachLoadedFile(Consumer<T> consumer) {
+        dataFiles.values().forEach(consumer);
     }
     
 }
