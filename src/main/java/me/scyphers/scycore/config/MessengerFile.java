@@ -113,12 +113,12 @@ public class MessengerFile extends ConfigFile implements Messenger {
                 }
 
                 switch (message.charAt(i + 1)) {
-                    case '#':
+                    case '#' -> {
                         String hex = message.substring(i + 1, i + 8);
                         component.setColor(ChatColor.of(hex));
                         i += 7;
-                        break;
-                    case interactChar:
+                    }
+                    case interactChar -> {
                         if (validInteractable) {
                             component.setText(sb.toString());
                             builder.append(component);
@@ -126,8 +126,8 @@ public class MessengerFile extends ConfigFile implements Messenger {
                             builder.append(interactable);
                         }
                         i += 1;
-                        break;
-                    default:
+                    }
+                    default -> {
                         char colourCode = message.charAt(i + 1);
                         switch (colourCode) {
                             case 'k':
@@ -156,6 +156,7 @@ public class MessengerFile extends ConfigFile implements Messenger {
                                 break;
                         }
                         i += 1;
+                    }
                 }
             }
         }
