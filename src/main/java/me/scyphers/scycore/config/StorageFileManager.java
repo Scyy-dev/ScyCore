@@ -13,6 +13,8 @@ public class StorageFileManager<T extends StorageFile> implements FileManager {
     
     private final Map<UUID, T> dataFiles;
 
+    private final Set<UUID> fileKeys;
+
     private final File enclosingFolder;
 
     private boolean safeToSave = true;
@@ -28,6 +30,17 @@ public class StorageFileManager<T extends StorageFile> implements FileManager {
 
         int saveTicks = plugin.getSettings().getSaveTicks();
         this.saveTaskID = scheduleSaveTask(saveTicks);
+
+        this.fileKeys = new HashSet<>();
+
+        String[] files = enclosingFolder.list();
+        if (files == null || files.length == 0) return;
+
+        for (String fileName : files) {
+            String rawUUID = fileName.replace(".yml", "");
+            UUID uuid = UUID.fromString(rawUUID);
+            fileKeys.add(uuid);
+        }
 
     }
     
@@ -85,6 +98,7 @@ public class StorageFileManager<T extends StorageFile> implements FileManager {
 
     public void addStorageFile(UUID uuid, T file) {
         dataFiles.put(uuid, file);
+        fileKeys.add(uuid);
     }
 
     public T getStorageFile(UUID uuid) {
@@ -92,18 +106,7 @@ public class StorageFileManager<T extends StorageFile> implements FileManager {
     }
 
     public Set<UUID> getFileKeys() {
-        String[] files = enclosingFolder.list();
-        if (files == null || files.length == 0) return Collections.emptySet();
-
-        Set<UUID> keys = new HashSet<>();
-
-        for (String fileName : files) {
-            String rawUUID = fileName.replace(".yml", "");
-            UUID uuid = UUID.fromString(rawUUID);
-            keys.add(uuid);
-        }
-
-        return keys;
+        return fileKeys;
     }
 
     public void clear() {
@@ -115,6 +118,7 @@ public class StorageFileManager<T extends StorageFile> implements FileManager {
         StorageFile file = dataFiles.get(uuid);
         file.remove();
         dataFiles.remove(uuid);
+        this.fileKeys.remove(uuid);
     }
 
     public void forEachLoadedFile(Consumer<T> consumer) {
