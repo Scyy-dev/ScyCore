@@ -138,6 +138,10 @@ public abstract class InventoryGUI implements InventoryHolder, GUI<InventoryClic
         return shouldClose;
     }
 
+    public void setShouldClose(boolean shouldClose) {
+        this.shouldClose = shouldClose;
+    }
+
     /**
      * A check if the player can perform actions in their inventory
      * @return if the player can perform actions in their inventory
