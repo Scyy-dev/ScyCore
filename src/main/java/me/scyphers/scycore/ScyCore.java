@@ -31,21 +31,21 @@ public class ScyCore extends BasePlugin {
 
     @Override
     public FileManager getFileManager() {
-        throw new IllegalCallerException("Base plugin cannot host a FileManager");
+        throw new UnsupportedOperationException("Base plugin cannot host a FileManager");
     }
 
     @Override
     public PluginSettings getSettings() {
-        throw new IllegalCallerException("Base plugin cannot host a Settings file");
+        throw new UnsupportedOperationException("Base plugin cannot host a Settings file");
     }
 
     @Override
     public Messenger getMessenger() {
-        throw new IllegalCallerException("Base plugin cannot host a Messenger");
+        throw new UnsupportedOperationException("Base plugin cannot host a Messenger");
     }
 
     @Override
     public List<String> getSplashText() {
-        throw new IllegalCallerException("Base plugin cannot host splash text");
+        throw new UnsupportedOperationException("Base plugin cannot host splash text");
     }
 }
