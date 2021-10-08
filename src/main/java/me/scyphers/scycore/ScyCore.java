@@ -3,11 +3,17 @@ package me.scyphers.scycore;
 import me.scyphers.scycore.api.PluginSettings;
 import me.scyphers.scycore.api.Messenger;
 import me.scyphers.scycore.config.FileManager;
+import me.scyphers.scycore.util.HeadMetaProvider;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
 public class ScyCore extends BasePlugin {
+
+    @Override
+    public void onLoad() {
+        HeadMetaProvider.init(this);
+    }
 
     @Override
     public void onEnable() {
