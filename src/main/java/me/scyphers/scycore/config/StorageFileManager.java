@@ -93,7 +93,7 @@ public class StorageFileManager<T extends StorageFile> implements FileManager {
     }
 
     public boolean contains(UUID uuid) {
-        return dataFiles.containsKey(uuid);
+        return fileKeys.contains(uuid);
     }
 
     public void addStorageFile(UUID uuid, T file) {
