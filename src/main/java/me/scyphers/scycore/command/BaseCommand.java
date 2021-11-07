@@ -39,10 +39,10 @@ public abstract class BaseCommand {
 
     public boolean onBaseCommand(CommandSender sender, String[] args) {
         if (!sender.hasPermission(permission)) {
-            m.msg(sender, "errorMessages.noPermission"); return true;
+            m.chat(sender, "errorMessages.noPermission"); return true;
         }
         if (args.length < minArgLength) {
-            m.msg(sender, "errorMessages.invalidCommandLength"); return true;
+            m.chat(sender, "errorMessages.invalidCommandLength"); return true;
         }
         return onCommand(sender, args);
     }

@@ -34,7 +34,7 @@ public class ItemCacheCommand extends PlayerCommand {
                 return true;
             }
             default -> {
-                m.msg(player, "errorMessages.invalidCommandArgument", "%arg%", operation, "%expected%", "add, remove");
+                m.chat(player, "errorMessages.invalidCommandArgument", "%arg%", operation, "%expected%", "add, remove");
                 return true;
             }
         }

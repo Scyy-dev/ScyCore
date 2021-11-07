@@ -99,7 +99,7 @@ public class ReminderScheduler {
                 Player player = plugin.getServer().getPlayer(recipientUUID);
                 if (player == null) continue;
 
-                messenger.msg(player, reminder.getMessagePath(), reminder.getMessageReplacements());
+                messenger.chat(player, reminder.getMessagePath(), reminder.getMessageReplacements());
 
             }
 

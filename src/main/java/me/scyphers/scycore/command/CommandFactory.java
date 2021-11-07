@@ -29,7 +29,7 @@ public class CommandFactory implements TabExecutor {
     public CommandFactory(BasePlugin plugin, String baseCommandName, Map<String, BaseCommand> commands) {
         this(plugin, baseCommandName, commands, sender -> {
             for (String line : plugin.getSplashText()) {
-                plugin.getMessenger().send(sender, line);
+                plugin.getMessenger().sendChat(sender, line);
             }
         });
     }
@@ -59,7 +59,7 @@ public class CommandFactory implements TabExecutor {
         BaseCommand baseCommand = commands.get(args[0]);
 
         if (baseCommand == null) {
-            m.msg(sender, "errorMessages.invalidCommand");
+            m.chat(sender, "errorMessages.invalidCommand");
             return true;
         }
 

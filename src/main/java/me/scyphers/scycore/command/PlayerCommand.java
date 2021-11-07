@@ -13,7 +13,7 @@ public abstract class PlayerCommand extends BaseCommand {
     @Override
     public final boolean onCommand(CommandSender sender, String[] args) {
         if (!(sender instanceof Player player)) {
-            m.msg(sender, "errorMessages.mustBePlayer");
+            m.chat(sender, "errorMessages.mustBePlayer");
             return true;
         }
         return onCommand(player, args);
