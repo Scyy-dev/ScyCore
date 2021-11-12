@@ -394,7 +394,6 @@ public class MessengerFile extends ConfigFile implements Messenger {
 
     @Override
     public void title(@NotNull Audience audience, @NotNull Component title, @NotNull Component subtitle, @NotNull Duration fadeIn, @NotNull Duration stay, @NotNull Duration fadeOut) {
-        Component display;
         Times times = Times.of(fadeIn, stay, fadeOut);
         audience.showTitle(Title.title(title, subtitle, times));
     }
