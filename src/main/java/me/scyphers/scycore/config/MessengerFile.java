@@ -110,7 +110,7 @@ public class MessengerFile extends ConfigFile implements Messenger {
                 // Add text and formatting
                 if (!sb.toString().equalsIgnoreCase("")) {
                     Component component = Component.text(sb.toString()).style(styleBuilder);
-                    base.append(component);
+                    base = base.append(component);
                     sb = new StringBuilder();
                     styleBuilder = Style.style();
                 }
