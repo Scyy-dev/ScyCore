@@ -6,6 +6,7 @@ import me.scyphers.scycore.config.FileManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class BasePlugin extends JavaPlugin {
@@ -44,6 +45,16 @@ public abstract class BasePlugin extends JavaPlugin {
      * Gets splash text which is displayed when the user provides no arguments for a command, or through an about command
      * @return a list of strings that hold splash text about the plugin
      */
-    public abstract List<String> getSplashText();
+    public List<String> getSplashText() {
+        StringBuilder authors = new StringBuilder();
+        for (String author : this.getDescription().getAuthors()) {
+            authors.append(author).append("&7, &6");
+        }
+        authors.delete(authors.length() - 4, authors.length());
+        return Arrays.asList(
+                "&6" + this.getDescription().getName() + " &8v&6" + this.getDescription().getVersion(),
+                "&7Built by &6" + authors
+        );
+    }
 
 }
