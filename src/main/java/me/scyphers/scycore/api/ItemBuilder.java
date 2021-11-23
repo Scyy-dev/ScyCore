@@ -1,4 +1,4 @@
-package me.scyphers.scycore.util;
+package me.scyphers.scycore.api;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

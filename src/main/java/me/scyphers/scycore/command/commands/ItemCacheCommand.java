@@ -2,7 +2,7 @@ package me.scyphers.scycore.command.commands;
 
 import me.scyphers.scycore.BasePlugin;
 import me.scyphers.scycore.command.PlayerCommand;
-import me.scyphers.scycore.util.ItemCache;
+import me.scyphers.scycore.api.ItemCache;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

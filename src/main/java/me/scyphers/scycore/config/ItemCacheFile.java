@@ -1,6 +1,6 @@
 package me.scyphers.scycore.config;
 
-import me.scyphers.scycore.util.ItemCache;
+import me.scyphers.scycore.api.ItemCache;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;

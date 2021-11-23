@@ -1,4 +1,4 @@
-package me.scyphers.scycore.util;
+package me.scyphers.scycore.api;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
 import me.scyphers.scycore.BasePlugin;
@@ -9,7 +9,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.*;
 
-public class HeadMetaProvider {
+public final class HeadMetaProvider {
 
     // Constant for how many heads can be loaded in a single second
     private static final int MAX_HEADS_PER_SECOND = 1000;
@@ -21,22 +21,27 @@ public class HeadMetaProvider {
     private static final Queue<ProfileData> profileQueue = new ArrayDeque<>();
     private static int taskID;
 
+    private static boolean initialised = false;
 
     // ItemStack constant
     private static final SkullMeta HEAD = (SkullMeta) new ItemStack(Material.PLAYER_HEAD).getItemMeta();
 
     public static void init(BasePlugin plugin) {
 
+        if (initialised) throw new IllegalStateException("Cannot initialise meta provider more than once");
+
         // Schedule the repeating task to process each head
         taskID = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
 
             // Add the profiles to the map
             for (int i = 0; i < MAX_HEADS_PER_SECOND; i++) {
-                if (profileQueue.peek() == null) break;
+                if (profileQueue.isEmpty()) break;
                 ProfileData request = profileQueue.poll();
                 profiles.put(request.uuid, request.playerProfile);
             }
         }, 20, 20);
+
+        initialised = true;
 
     }
 

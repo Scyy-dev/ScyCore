@@ -3,7 +3,7 @@ package me.scyphers.scycore;
 import me.scyphers.scycore.api.PluginSettings;
 import me.scyphers.scycore.api.Messenger;
 import me.scyphers.scycore.config.FileManager;
-import me.scyphers.scycore.util.HeadMetaProvider;
+import me.scyphers.scycore.api.HeadMetaProvider;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;

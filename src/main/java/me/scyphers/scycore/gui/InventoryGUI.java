@@ -1,7 +1,7 @@
 package me.scyphers.scycore.gui;
 
 import me.scyphers.scycore.BasePlugin;
-import me.scyphers.scycore.util.ItemBuilder;
+import me.scyphers.scycore.api.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
