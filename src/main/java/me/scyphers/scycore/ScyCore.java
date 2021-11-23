@@ -12,12 +12,12 @@ public class ScyCore extends BasePlugin {
 
     @Override
     public void onLoad() {
-        HeadMetaProvider.init(this);
+
     }
 
     @Override
     public void onEnable() {
-
+        HeadMetaProvider.init(this);
     }
 
     @Override
