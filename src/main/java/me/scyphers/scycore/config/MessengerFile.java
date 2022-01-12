@@ -119,77 +119,35 @@ public class MessengerFile extends ConfigFile implements Messenger {
                 } else {
                     char colourCode = message.charAt(i + 1);
                     switch (colourCode) {
-                        case '0':
-                            styleBuilder.color(NamedTextColor.BLACK);
-                            break;
-                        case '1':
-                            styleBuilder.color(NamedTextColor.DARK_BLUE);
-                            break;
-                        case '2':
-                            styleBuilder.color(NamedTextColor.DARK_GREEN);
-                            break;
-                        case '3':
-                            styleBuilder.color(NamedTextColor.DARK_AQUA);
-                            break;
-                        case '4':
-                            styleBuilder.color(NamedTextColor.DARK_RED);
-                            break;
-                        case '5':
-                            styleBuilder.color(NamedTextColor.DARK_PURPLE);
-                            break;
-                        case '6':
-                            styleBuilder.color(NamedTextColor.GOLD);
-                            break;
-                        case '7':
-                            styleBuilder.color(NamedTextColor.GRAY);
-                            break;
-                        case '8':
-                            styleBuilder.color(NamedTextColor.DARK_GRAY);
-                            break;
-                        case '9':
-                            styleBuilder.color(NamedTextColor.BLUE);
-                            break;
-                        case 'a':
-                            styleBuilder.color(NamedTextColor.GREEN);
-                            break;
-                        case 'b':
-                            styleBuilder.color(NamedTextColor.AQUA);
-                            break;
-                        case 'c':
-                            styleBuilder.color(NamedTextColor.RED);
-                            break;
-                        case 'd':
-                            styleBuilder.color(NamedTextColor.LIGHT_PURPLE);
-                            break;
-                        case 'e':
-                            styleBuilder.color(NamedTextColor.YELLOW);
-                            break;
-                        case 'f':
-                            styleBuilder.color(NamedTextColor.WHITE);
-                            break;
-                        case 'k':
-                            styleBuilder.decorate(TextDecoration.OBFUSCATED);
-                            break;
-                        case 'l':
-                            styleBuilder.decorate(TextDecoration.BOLD);
-                            break;
-                        case 'm':
-                            styleBuilder.decorate(TextDecoration.STRIKETHROUGH);
-                            break;
-                        case 'n':
-                            styleBuilder.decorate(TextDecoration.UNDERLINED);
-                            break;
-                        case 'o':
-                            styleBuilder.decorate(TextDecoration.ITALIC);
-                            break;
-                        case 'r':
+                        case '0' -> styleBuilder.color(NamedTextColor.BLACK);
+                        case '1' -> styleBuilder.color(NamedTextColor.DARK_BLUE);
+                        case '2' -> styleBuilder.color(NamedTextColor.DARK_GREEN);
+                        case '3' -> styleBuilder.color(NamedTextColor.DARK_AQUA);
                         case '4' -> styleBuilder.color(NamedTextColor.DARK_RED);
+                        case '5' -> styleBuilder.color(NamedTextColor.DARK_PURPLE);
+                        case '6' -> styleBuilder.color(NamedTextColor.GOLD);
+                        case '7' -> styleBuilder.color(NamedTextColor.GRAY);
+                        case '8' -> styleBuilder.color(NamedTextColor.DARK_GRAY);
+                        case '9' -> styleBuilder.color(NamedTextColor.BLUE);
+                        case 'a' -> styleBuilder.color(NamedTextColor.GREEN);
+                        case 'b' -> styleBuilder.color(NamedTextColor.AQUA);
+                        case 'c' -> styleBuilder.color(NamedTextColor.RED);
+                        case 'd' -> styleBuilder.color(NamedTextColor.LIGHT_PURPLE);
+                        case 'e' -> styleBuilder.color(NamedTextColor.YELLOW);
+                        case 'f' -> styleBuilder.color(NamedTextColor.WHITE);
+                        case 'k' -> styleBuilder.decorate(TextDecoration.OBFUSCATED);
+                        case 'l' -> styleBuilder.decorate(TextDecoration.BOLD);
+                        case 'm' -> styleBuilder.decorate(TextDecoration.STRIKETHROUGH);
+                        case 'n' -> styleBuilder.decorate(TextDecoration.UNDERLINED);
+                        case 'o' -> styleBuilder.decorate(TextDecoration.ITALIC);
+                        case 'r' -> {
                             styleBuilder.decoration(TextDecoration.OBFUSCATED, false);
                             styleBuilder.decoration(TextDecoration.BOLD, false);
                             styleBuilder.decoration(TextDecoration.STRIKETHROUGH, false);
                             styleBuilder.decoration(TextDecoration.UNDERLINED, false);
                             styleBuilder.decoration(TextDecoration.ITALIC, false);
-                        default:
+                        }
+                        default ->
                             // bad colour code given, just append text without formatting
                             sb.append("&").append(colourCode);
                     }
