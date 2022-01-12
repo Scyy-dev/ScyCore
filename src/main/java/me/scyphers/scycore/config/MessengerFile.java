@@ -183,6 +183,7 @@ public class MessengerFile extends ConfigFile implements Messenger {
                             styleBuilder.decorate(TextDecoration.ITALIC);
                             break;
                         case 'r':
+                        case '4' -> styleBuilder.color(NamedTextColor.DARK_RED);
                             styleBuilder.decoration(TextDecoration.OBFUSCATED, false);
                             styleBuilder.decoration(TextDecoration.BOLD, false);
                             styleBuilder.decoration(TextDecoration.STRIKETHROUGH, false);
