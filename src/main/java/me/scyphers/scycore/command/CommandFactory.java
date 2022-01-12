@@ -79,6 +79,8 @@ public class CommandFactory implements TabExecutor {
 
         List<String> messages = baseCommand.onTabComplete(sender, args);
 
+        if (messages == null) return Collections.emptyList();
+
         // Filter the responses for what the sender has partially typed
         return messages.stream()
                 .filter(s -> s.toLowerCase(Locale.ROOT).startsWith(args[args.length - 1].toLowerCase(Locale.ROOT)))
