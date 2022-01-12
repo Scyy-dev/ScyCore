@@ -40,6 +40,15 @@ public class MessengerFile extends ConfigFile implements Messenger {
         for (String key : configuration.getKeys(true)) {
             if (key.equalsIgnoreCase("prefix")) continue;
 
+            // Lists have to be processed first due to how string lists are handled when interpreted as a single string
+
+            // Check if message is a list message
+            List<String> listMessage = configuration.getStringList(key);
+            if (listMessage.size() != 0) {
+                listMessages.put(key, listMessage);
+                continue;
+            }
+
             // Check if message is a single line message
             String message = configuration.getString(key, "");
             if (!message.equalsIgnoreCase("")) {
@@ -47,15 +56,8 @@ public class MessengerFile extends ConfigFile implements Messenger {
                 continue;
             }
 
-            // Check if message is a multi-line message
-            List<String> listMessage = configuration.getStringList(key);
-            if (listMessage.size() != 0) {
-                listMessages.put(key, listMessage);
-                continue;
-            }
-
             // Something that isn't a message found in config - log it to console
-            getManager().getPlugin().getLogger().info("Invalid format for message found at " + key + " in messages.yml");
+            this.getManager().getPlugin().getLogger().info("Invalid format for message found at " + key + " in messages.yml");
 
         }
 
@@ -63,24 +65,24 @@ public class MessengerFile extends ConfigFile implements Messenger {
         for (String key : defaults.getKeys(true)) {
             if (key.equalsIgnoreCase("prefix")) continue;
 
-            // Check if message is a single line message
-            String message = defaults.getString(key, "");
-            if (!message.equalsIgnoreCase("") && !messages.containsKey(key)) {
-                messages.put(key, message);
-                continue;
-            }
+            // Lists have to be processed first due to how string lists are handled when interpreted as a single string
 
             // Check if message is a multi-line message
             List<String> listMessage = defaults.getStringList(key);
             if (listMessage.size() != 0 && !listMessages.containsKey(key)) {
                 listMessages.put(key, listMessage);
+                continue;
+            }
+
+            // Check if message is a single line message
+            String message = defaults.getString(key, "");
+            if (!message.equalsIgnoreCase("") && !messages.containsKey(key)) {
+                messages.put(key, message);
             }
 
         }
 
-        String rawPrefix = configuration.getString("prefix");
-        if (rawPrefix != null) this.prefix = rawPrefix;
-        else this.prefix = "[COULD_NOT_LOAD_PREFIX] ";
+        this.prefix = configuration.getString("prefix", "[COULD_NOT_LOAD_PREFIX] ");
 
     }
 
