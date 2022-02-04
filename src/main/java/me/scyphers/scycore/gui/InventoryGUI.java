@@ -2,6 +2,8 @@ package me.scyphers.scycore.gui;
 
 import me.scyphers.scycore.BasePlugin;
 import me.scyphers.scycore.api.ItemBuilder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,7 +19,7 @@ import java.util.Arrays;
 
 public abstract class InventoryGUI implements InventoryHolder, GUI<InventoryClickEvent> {
 
-    public static final ItemStack BACKGROUND = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).name(" ").build();
+    public static final ItemStack BACKGROUND = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).name(Component.text(" ")).build();
 
     /**
      * The GUI that was open before this one
@@ -78,8 +80,13 @@ public abstract class InventoryGUI implements InventoryHolder, GUI<InventoryClic
     @Override
     public abstract @NotNull GUI<?> handleInteraction(InventoryClickEvent event);
 
+    public void draw() {
+
+    }
+
     @Override
     public void open(Player player) {
+        this.draw();
         inventory.setContents(inventoryItems);
         player.openInventory(inventory);
     }
