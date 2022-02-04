@@ -1,5 +1,6 @@
 package me.scyphers.scycore.api;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -52,6 +53,19 @@ public class ItemBuilder {
 
     }
 
+    /**
+     * Creates the Item from the given ItemMeta. It is assumed that the meta is compatible with the provided item type, and no checks are performed to ensure this
+     * @param meta the meta of the item to initialise the builder from
+     * @param type the type of the item
+     */
+    public ItemBuilder(ItemMeta meta, Material type) {
+
+        this.item = new ItemStack(type);
+        this.itemMeta = meta;
+        this.itemLore = itemMeta.getLore();
+
+    }
+
     /* Meta */
 
     /**
@@ -92,12 +106,25 @@ public class ItemBuilder {
     /*  Name and Lore  */
     /**
      * Add a name to the ItemStack. Uses '&' for minecraft colour formatting
+     * @deprecated in favour of {@link ItemBuilder#name(Component)}
      * @param name the name to be added
      * @return The Builder instance
      */
     public ItemBuilder name(String name) {
 
         this.itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+        return this;
+
+    }
+
+    /**
+     * Add a component as the name for the ItemStack
+     * @param name the component to become the name
+     * @return The Builder instance
+     */
+    public ItemBuilder name(Component name) {
+
+        this.itemMeta.displayName(name);
         return this;
 
     }
