@@ -35,10 +35,7 @@ public interface GUI<T extends Event> {
     @Nullable GUI<?> getLastGUI();
 
     /**
-     * Gets the plugin this GUI is associated with. <br>
-     * If you have a centralised data access system that isn't the plugin class,
-     * it is recommended to replace the return type to that data system,
-     * or add the ability to access such system through your plugin class
+     * Gets the plugin this GUI is associated with.<br>
      * @return the plugin
      */
     @NotNull BasePlugin getPlugin();
