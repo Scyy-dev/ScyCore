@@ -38,7 +38,6 @@ public abstract class PagedListGUI<T> extends InventoryGUI {
         this.fillItem = fillItem;
         this.previousPageSlot = previousPageSlot;
         this.nextPageSlot = nextPageSlot;
-        this.draw();
     }
 
     public void draw() {
