@@ -74,8 +74,8 @@ public abstract class PagedListGUI<T> extends InventoryGUI {
         }
 
         // Display the pagination buttons
-        if (page != 0) inventoryItems[this.getSize() - 9] = this.previousPageButton(page);
-        inventoryItems[this.getSize() - 1] = this.nextPageButton(page);
+        if (page != 0) inventoryItems[previousPageSlot] = this.previousPageButton(page);
+        inventoryItems[nextPageSlot] = this.nextPageButton(page + 2);
     }
 
     @Override
