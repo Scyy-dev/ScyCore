@@ -1,6 +1,7 @@
 package me.scyphers.scycore.api;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -106,13 +107,13 @@ public class ItemBuilder {
     /*  Name and Lore  */
     /**
      * Add a name to the ItemStack. Uses '&' for minecraft colour formatting
-     * @deprecated in favour of {@link ItemBuilder#name(Component)}
      * @param name the name to be added
      * @return The Builder instance
      */
     public ItemBuilder name(String name) {
 
-        this.itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+        Component component = LegacyComponentSerializer.legacyAmpersand().deserialize(name);
+        this.itemMeta.displayName(component);
         return this;
 
     }
