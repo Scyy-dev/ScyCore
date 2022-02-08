@@ -27,7 +27,7 @@ public class ItemBuilder {
     /**
      * Lore for the item. An incremental list that gets added to by the builder
      */
-    private final List<String> itemLore;
+    private final List<Component> itemLore;
 
     /**
      * Creates the initial ItemStack
@@ -49,8 +49,7 @@ public class ItemBuilder {
 
         this.item = itemStack;
         this.itemMeta = itemStack.getItemMeta();
-        if (itemMeta != null && itemMeta.getLore() != null) this.itemLore = itemMeta.getLore();
-        else this.itemLore = new ArrayList<>();
+        this.itemLore = itemMeta != null && itemMeta.lore() != null ? itemMeta.lore() : new ArrayList<>();
 
     }
 
@@ -63,7 +62,7 @@ public class ItemBuilder {
 
         this.item = new ItemStack(type);
         this.itemMeta = meta;
-        this.itemLore = itemMeta.getLore();
+        this.itemLore = itemMeta != null && itemMeta.lore() != null ? itemMeta.lore() : new ArrayList<>();
 
     }
 
@@ -137,7 +136,8 @@ public class ItemBuilder {
      */
     public ItemBuilder lore(String lore) {
 
-        this.itemLore.add(ChatColor.translateAlternateColorCodes('&', lore));
+        LegacyComponentSerializer serializer = LegacyComponentSerializer.legacyAmpersand();
+        this.itemLore.add(serializer.deserialize(lore));
         return this;
 
     }
@@ -149,12 +149,7 @@ public class ItemBuilder {
      */
     public ItemBuilder lore(Iterable<String> lore) {
 
-        for (String loreLine : lore) {
-
-            this.itemLore.add(ChatColor.translateAlternateColorCodes('&', loreLine));
-
-        }
-
+        lore.forEach(this::lore);
         return this;
 
     }
@@ -215,7 +210,7 @@ public class ItemBuilder {
      */
     public ItemStack build() {
 
-        itemMeta.setLore(itemLore);
+        itemMeta.lore(itemLore);
         item.setItemMeta(itemMeta);
         return item;
 
