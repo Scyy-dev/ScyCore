@@ -69,7 +69,7 @@ public abstract class PagedListGUI<T> extends InventoryGUI {
             invIndex++;
 
             // Wrap the inventory index back around if this display row has finished
-            if (invIndex - (9 - columnFromWidth) % 9 == 0) invIndex += 2 * columnFromWidth;
+            if ((invIndex - (9 - columnFromWidth)) % 9 == 0) invIndex += 2 * columnFromWidth;
 
         }
 
