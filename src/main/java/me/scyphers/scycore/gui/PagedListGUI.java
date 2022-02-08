@@ -14,7 +14,7 @@ public abstract class PagedListGUI<T> extends InventoryGUI {
 
     private final ItemStack fillItem;
 
-    private final List<T> items;
+    private List<T> items;
 
     private final int height, width, totalPerPage;
 
@@ -121,6 +121,14 @@ public abstract class PagedListGUI<T> extends InventoryGUI {
     public abstract @NotNull GUI<?> handleGenericInteraction(InventoryClickEvent event);
 
     public abstract @NotNull GUI<?> handleItemInteraction(InventoryClickEvent event, T item);
+
+    public List<T> getItems() {
+        return items;
+    }
+
+    public void setItems(List<T> items) {
+        this.items = items;
+    }
 
     public static int getColumnFromWidth(int width) {
         return switch (width) {
