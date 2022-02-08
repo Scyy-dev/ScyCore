@@ -3,7 +3,7 @@ package me.scyphers.scycore.gui;
 import me.scyphers.scycore.BasePlugin;
 import me.scyphers.scycore.api.ItemBuilder;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -20,6 +20,8 @@ import java.util.Arrays;
 public abstract class InventoryGUI implements InventoryHolder, GUI<InventoryClickEvent> {
 
     public static final ItemStack BACKGROUND = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).name(Component.text(" ")).build();
+
+    private static final LegacyComponentSerializer titleFormatter = LegacyComponentSerializer.legacyAmpersand();
 
     /**
      * The GUI that was open before this one
@@ -73,7 +75,7 @@ public abstract class InventoryGUI implements InventoryHolder, GUI<InventoryClic
         this.player = player;
         this.name = name;
         this.size = size;
-        this.inventory = Bukkit.createInventory(null, size, name);
+        this.inventory = Bukkit.createInventory(this, size, titleFormatter.deserialize(name));
         this.inventoryItems = inventory.getContents();
     }
 
@@ -103,7 +105,9 @@ public abstract class InventoryGUI implements InventoryHolder, GUI<InventoryClic
      * Utility method for saving time when registering listeners for the GUI.<br>
      * All subclasses of {@link InventoryGUI} will use this listener for triggering their interaction handlers
      * @return the listener for this GUI and all GUI subclasses for it
+     * @deprecated
      */
+    @Deprecated
     public static Listener getListener() {
         return new InventoryListener();
     }
@@ -158,6 +162,7 @@ public abstract class InventoryGUI implements InventoryHolder, GUI<InventoryClic
     private static class InventoryListener implements Listener {
         @EventHandler(priority = EventPriority.HIGHEST)
         public void onInventoryClickEvent(InventoryClickEvent event) {
+
             // Verify if the inventory interacted with was an InventoryGUI
             // If the inventory interacted with is not a valid GUI then we do not handle this event
             if (!(event.getView().getTopInventory().getHolder() instanceof InventoryGUI oldGUI)) return;

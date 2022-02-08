@@ -4,6 +4,7 @@ import me.scyphers.scycore.api.PluginSettings;
 import me.scyphers.scycore.api.Messenger;
 import me.scyphers.scycore.config.FileManager;
 import me.scyphers.scycore.api.HeadMetaProvider;
+import me.scyphers.scycore.gui.InventoryListener;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class ScyCore extends BasePlugin {
     @Override
     public void onEnable() {
         HeadMetaProvider.init(this);
+        this.getServer().getPluginManager().registerEvents(new InventoryListener(this), this);
     }
 
     @Override
