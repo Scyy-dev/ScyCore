@@ -1,6 +1,7 @@
 package me.scyphers.scycore.gui;
 
 import me.scyphers.scycore.BasePlugin;
+import me.scyphers.scycore.util.InventoryUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -84,7 +85,7 @@ public abstract class PagedListGUI<T> extends InventoryGUI {
         int click = event.getRawSlot();
 
         // Check if the item clicked was an item on the list
-        int wrappedClick = getIndexOfItemWithBorder(click, this.getSize(), getRowFromHeight(height) * 2, getColumnFromWidth(width) * 2);
+        int wrappedClick = InventoryUtil.getIndexOfItemWithBorder(click, getRowFromHeight(height) * 2, getColumnFromWidth(width) * 2);
         if (wrappedClick != -1 && inventoryItems[click] != null) {
             int indexedClick = totalPerPage * page + wrappedClick;
             T item = items.get(indexedClick);
@@ -147,19 +148,6 @@ public abstract class PagedListGUI<T> extends InventoryGUI {
         };
     }
 
-    public static int getIndexOfItemWithBorder(int inventoryIndex, int inventorySize, int borderRows, int borderColumns) {
 
-        int invRows = inventorySize / 9;
-        int invColumns = 9;
-
-        int row = inventoryIndex / 9;
-        int column = inventoryIndex % 9;
-
-        if (row < borderRows || row > invRows - borderRows) return -1;
-        if (column < borderColumns || column > invColumns - borderColumns) return -1;
-
-        return (row - borderRows) * (invRows - borderColumns * 2) + (column - borderColumns);
-
-    }
 
 }
