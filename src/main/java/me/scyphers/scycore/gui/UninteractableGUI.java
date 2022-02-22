@@ -26,6 +26,7 @@ public class UninteractableGUI extends InventoryGUI {
      */
     @Override
     public @NotNull GUI<?> handleInteraction(InventoryClickEvent event) {
+        event.setCancelled(true);
         return this;
     }
     
