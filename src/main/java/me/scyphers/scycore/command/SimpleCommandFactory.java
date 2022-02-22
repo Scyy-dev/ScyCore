@@ -48,4 +48,8 @@ public abstract class SimpleCommandFactory implements TabExecutor {
 
     public abstract List<String> onTabComplete(@NotNull CommandSender sender, @NotNull String[] args);
 
+    public void accept(CommandSender sender) {
+        this.noArgConsumer.accept(sender);
+    }
+
 }
