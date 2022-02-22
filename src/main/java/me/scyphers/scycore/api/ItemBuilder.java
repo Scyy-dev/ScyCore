@@ -1,8 +1,9 @@
 package me.scyphers.scycore.api;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -111,7 +112,24 @@ public class ItemBuilder {
      */
     public ItemBuilder name(String name) {
 
+        return this.name(name, true);
+
+    }
+
+    /**
+     * Add a name to the ItemStack. Uses '&' for minecraft colour formatting
+     * @param name the name to be added
+     * @param ignoreItalics if italics should be removed from the component
+     * @return The Builder instance
+     */
+    public ItemBuilder name(String name, boolean ignoreItalics) {
+
         Component component = LegacyComponentSerializer.legacyAmpersand().deserialize(name);
+        if (ignoreItalics) {
+            Style style = component.style();
+            style = style.decoration(TextDecoration.ITALIC, false);
+            component = component.style(style);
+        }
         this.itemMeta.displayName(component);
         return this;
 
@@ -136,10 +154,26 @@ public class ItemBuilder {
      */
     public ItemBuilder lore(String lore) {
 
-        LegacyComponentSerializer serializer = LegacyComponentSerializer.legacyAmpersand();
-        this.itemLore.add(serializer.deserialize(lore));
-        return this;
+        return this.lore(lore, true);
 
+    }
+
+    /**
+     * Add a single line of lore to the ItemStack. Uses '&' for minecraft colour formatting
+     * @param lore the more to be added
+     * @param ignoreItalics if italics should be removed from the component
+     * @return The Builder instance
+     */
+    public ItemBuilder lore(String lore, boolean ignoreItalics) {
+        LegacyComponentSerializer serializer = LegacyComponentSerializer.legacyAmpersand();
+        Component component = serializer.deserialize(lore);
+        if (ignoreItalics) {
+            Style style = component.style();
+            style = style.decoration(TextDecoration.ITALIC, false);
+            component = component.style(style);
+        }
+        this.itemLore.add(component);
+        return this;
     }
 
     /**
@@ -150,6 +184,19 @@ public class ItemBuilder {
     public ItemBuilder lore(Iterable<String> lore) {
 
         lore.forEach(this::lore);
+        return this;
+
+    }
+
+    /**
+     * Add multiple lines of lore to the ItemStack. Uses '&' for minecraft colour formatting
+     * @param lore the lore to be added
+     * @param ignoreItalics if italics should be removed from the component
+     * @return The Builder instance
+     */
+    public ItemBuilder lore(Iterable<String> lore, boolean ignoreItalics) {
+
+        lore.forEach(loreLine -> this.lore(loreLine, ignoreItalics));
         return this;
 
     }
