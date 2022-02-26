@@ -25,14 +25,15 @@ public record InventoryListener(BasePlugin plugin) implements Listener {
             return;
         }
 
-        // If the new GUI should close instead of trying to handle new interactions
+        // Handle the interact event and open the new inventory
+        GUI<?> newGUI = oldGUI.handleInteraction(event);
+
+        // If the GUI should close after handling the interaction
         if (oldGUI.shouldClose()) {
             plugin.getServer().getScheduler().runTask(oldGUI.plugin, () -> event.getWhoClicked().closeInventory());
             return;
         }
 
-        // Handle the interact event and open the new inventory
-        GUI<?> newGUI = oldGUI.handleInteraction(event);
         plugin.getServer().getScheduler().runTask(oldGUI.plugin, () -> newGUI.open(oldGUI.getPlayer()));
     }
 
