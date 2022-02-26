@@ -30,8 +30,15 @@ public class ItemBuilder {
      */
     private final List<Component> itemLore;
 
+    public static final ItemStack EMPTY = new ItemStack(Material.AIR);
+
+    public static ItemStack empty() {
+        return EMPTY;
+    }
+
     /**
-     * Creates the initial ItemStack
+     * Creates the initial ItemStack. <br>
+     * If you wish to create an empty item (i.e. {@link Material#AIR}) then use {@link ItemBuilder#empty()} instead
      * @param material the material for the ItemStack
      */
     public ItemBuilder(Material material) {
