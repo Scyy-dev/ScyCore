@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -82,8 +83,17 @@ public abstract class InventoryGUI implements InventoryHolder, GUI<InventoryClic
     @Override
     public abstract @NotNull GUI<?> handleInteraction(InventoryClickEvent event);
 
+    public void onClose(InventoryCloseEvent event) {
+
+    }
+
     public void draw() {
 
+    }
+
+    protected void prepare() {
+        this.draw();
+        inventory.setContents(inventoryItems);
     }
 
     @Override
@@ -105,7 +115,7 @@ public abstract class InventoryGUI implements InventoryHolder, GUI<InventoryClic
      * Utility method for saving time when registering listeners for the GUI.<br>
      * All subclasses of {@link InventoryGUI} will use this listener for triggering their interaction handlers
      * @return the listener for this GUI and all GUI subclasses for it
-     * @deprecated
+     * @deprecated in favour of {@link me.scyphers.scycore.gui.InventoryListener}
      */
     @Deprecated
     public static Listener getListener() {
