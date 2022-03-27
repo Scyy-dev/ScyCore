@@ -87,8 +87,8 @@ public abstract class PagedListGUI<T> extends InventoryGUI {
 
         // Check if the item clicked was an item on the list
         int wrappedClick = InventoryUtil.getIndexOfItemWithBorder(click, getRowFromHeight(height) * 2, getColumnFromWidth(width) * 2);
-        if (wrappedClick != -1 && inventoryItems[click] != null) {
-            int indexedClick = totalPerPage * page + wrappedClick;
+        int indexedClick = totalPerPage * page + wrappedClick;
+        if (wrappedClick != -1 && indexedClick < items.size()) {
             T item = items.get(indexedClick);
             return this.handleItemInteraction(event, item);
         }
