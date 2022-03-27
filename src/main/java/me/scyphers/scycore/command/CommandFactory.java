@@ -9,10 +9,7 @@ import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -77,14 +74,22 @@ public class CommandFactory implements TabExecutor {
         BaseCommand baseCommand = commands.get(args[0]);
         if (baseCommand == null) return Collections.emptyList();
 
-        List<String> messages = baseCommand.onTabComplete(sender, args);
+        List<String> messages = baseCommand.onBaseTabComplete(sender, args);
 
-        if (messages == null) return Collections.emptyList();
+        if (messages == null || messages.size() == 0) return Collections.emptyList();
 
         // Filter the responses for what the sender has partially typed
         return messages.stream()
                 .filter(s -> s.toLowerCase(Locale.ROOT).startsWith(args[args.length - 1].toLowerCase(Locale.ROOT)))
                 .collect(Collectors.toList());
 
+    }
+
+    public Set<String> getCommandNames() {
+        return Collections.unmodifiableSet(commands.keySet());
+    }
+
+    public Collection<BaseCommand> getCommands() {
+        return Collections.unmodifiableCollection(commands.values());
     }
 }

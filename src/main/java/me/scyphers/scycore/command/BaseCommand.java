@@ -2,6 +2,7 @@ package me.scyphers.scycore.command;
 
 import me.scyphers.scycore.BasePlugin;
 import me.scyphers.scycore.api.Messenger;
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -11,6 +12,8 @@ public abstract class BaseCommand {
     private final BasePlugin plugin;
 
     protected final Messenger m;
+
+    private final Component defaultHelpMessage;
 
     private final String permission;
 
@@ -26,6 +29,7 @@ public abstract class BaseCommand {
         this.plugin = plugin;
         this.m = plugin.getMessenger();
         this.permission = permission;
+        this.defaultHelpMessage = defaultHelpMessage();
         this.minArgLength = minArgLength;
     }
 
@@ -35,6 +39,16 @@ public abstract class BaseCommand {
 
     public String getPermission() {
         return permission;
+    }
+
+    /**
+     * A getter for a help message that includes any text formatting, links etc. <br><br>
+     * This method by default returns a rather unhelpful message by default, as help is contextual, <br>
+     * and this method should be overridden to provide a more useful message
+     * @return the help message
+     */
+    public Component getHelpMessage() {
+        return defaultHelpMessage;
     }
 
     public boolean onBaseCommand(CommandSender sender, String[] args) {
@@ -55,5 +69,9 @@ public abstract class BaseCommand {
     }
 
     public abstract List<String> onTabComplete(CommandSender sender, String[] args);
+
+    private Component defaultHelpMessage() {
+        return Component.text("Permission required: '" + permission + "', minimum number of arguments: " + minArgLength + "'");
+    }
 
 }
