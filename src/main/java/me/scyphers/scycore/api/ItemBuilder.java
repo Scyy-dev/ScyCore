@@ -189,7 +189,6 @@ public class ItemBuilder {
      * @return The Builder instance
      */
     public ItemBuilder lore(Iterable<String> lore) {
-
         lore.forEach(this::lore);
         return this;
 

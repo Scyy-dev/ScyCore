@@ -17,6 +17,7 @@ dependencies {
 
     // Base Minecraft Server Library
     compileOnly 'io.papermc.paper:paper-api:1.17-R0.1-SNAPSHOT'
+    testCompileOnly 'io.papermc.paper:paper-api:1.17-R0.1-SNAPSHOT'
 
     // Common use external libraries
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"

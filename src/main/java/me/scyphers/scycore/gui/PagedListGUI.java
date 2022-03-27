@@ -62,7 +62,8 @@ public abstract class PagedListGUI<T> extends InventoryGUI {
             if (i < items.size()) {
                 T item = items.get(i);
                 inventoryItems[invIndex] = this.display(item);
-                // Otherwise, display nothing
+
+            // Otherwise, display nothing
             } else {
                 inventoryItems[invIndex] = this.displayBlank();
             }
