@@ -2,6 +2,7 @@ package me.scyphers.scycore.command.commands;
 
 import me.scyphers.scycore.BasePlugin;
 import me.scyphers.scycore.command.BaseCommand;
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 
 import java.util.Collections;
@@ -22,5 +23,10 @@ public class ReloadCommand extends BaseCommand {
     @Override
     public List<String> onTabComplete(CommandSender sender, String[] args) {
         return Collections.emptyList();
+    }
+
+    @Override
+    public Component getHelpMessage() {
+        return m.get("help.reload");
     }
 }

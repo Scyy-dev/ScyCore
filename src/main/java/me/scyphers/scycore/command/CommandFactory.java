@@ -89,6 +89,10 @@ public class CommandFactory implements TabExecutor {
         return Collections.unmodifiableSet(commands.keySet());
     }
 
+    public BaseCommand getCommand(String commandName) {
+        return commands.get(commandName);
+    }
+
     public Collection<BaseCommand> getCommands() {
         return Collections.unmodifiableCollection(commands.values());
     }

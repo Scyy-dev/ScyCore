@@ -3,6 +3,7 @@ package me.scyphers.scycore.command.commands;
 import me.scyphers.scycore.BasePlugin;
 import me.scyphers.scycore.command.PlayerCommand;
 import me.scyphers.scycore.api.ItemCache;
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -55,4 +56,8 @@ public class ItemCacheCommand extends PlayerCommand {
 
     }
 
+    @Override
+    public Component getHelpMessage() {
+        return m.get("help.itemcache");
+    }
 }
